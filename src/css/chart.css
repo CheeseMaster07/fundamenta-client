@@ -1,0 +1,14 @@
+.chart-div {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+
+}
+
+.chart {
+  width: 40%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+

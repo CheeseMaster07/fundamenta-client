@@ -1,0 +1,87 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.nav {
+  background-color: #111111;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+
+.logo {
+  text-align: left;
+  background-color: #111111;
+  padding: 0 1rem;
+}
+
+.icons {
+  flex-grow: 1;
+
+}
+
+.nav ul {
+  padding: 0;
+  margin-left: 3rem;
+  list-style: none;
+  display: flex;
+  justify-content: left;
+}
+
+
+.title {
+  font-size: 2.5rem;
+
+}
+
+.title-link {
+  color: white;
+
+  text-decoration: none;
+}
+
+.search-stocks {
+  margin-top: 0.35rem;
+
+}
+
+.dropdown {
+  position: relative
+}
+
+.dropdown-menu {
+  font-size: 20px;
+  position: absolute;
+  left: 0;
+  top: calc(100% + .4rem);
+  background-color: rgb(36, 36, 36);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.11);
+  border-radius: .2rem;
+}
+
+.dropdown-row {
+  padding-right: 7.2rem;
+  padding-left: 1rem;
+  border: 2px;
+  margin-bottom: .1rem;
+}
+
+.dropdown-row:hover {
+  background-color: rgb(46, 46, 46);
+  cursor: pointer;
+}
+
+.searchbar {
+  font-size: 16px;
+  border: 1px solid rgba(0, 0, 0, 0);
+  border-radius: .15rem;
+  padding: .6rem .6rem;
+  color: white;
+  background-color: rgb(66, 66, 66);
+}

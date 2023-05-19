@@ -1,0 +1,136 @@
+.table-div {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+
+}
+
+
+.table {
+  border-collapse: collapse;
+  margin: 3rem 0;
+  font-size: 1.6rem;
+  width: 60%;
+  border-radius: 1rem;
+  table-layout: fixed;
+}
+
+.table-quarterly {
+  border-collapse: collapse;
+  margin: 3rem 0;
+  font-size: 1.6rem;
+  width: 80%;
+  border-radius: 1rem;
+  table-layout: fixed;
+}
+
+
+.table thead tr, .table-quarterly thead tr {
+  background-color: rgb(17, 17, 17);
+  text-align: left;
+  font-weight: 600;
+}
+
+.table tbody tr, .table-quarterly tbody tr  {
+  background-color: rgb(22, 22, 22);
+  cursor: pointer;
+}
+
+.table tbody tr:hover, .table-quarterly tbody tr:hover {
+  background-color: rgb(36, 36, 36);
+  cursor: pointer;
+}
+
+.table th, .table-quarterly th,
+.table td, .table-quarterly td {
+  padding: 8px 16px;
+  border-bottom: 1px solid rgb(51, 51, 51);
+  text-align: left;
+
+}
+
+.first-column {
+  width: 45%;
+  text-align: left;
+}
+
+.other-columns {
+  width: 13%;
+  text-align: center;
+}
+
+#toggled-grossMargin {
+  background-color: rgba(0, 81, 255, 0.219);
+}
+
+#toggled-netMargin {
+  background-color: rgba(255, 255, 0, 0.377);
+}
+
+#toggled-totalRevenue {
+  background-color: rgba(0, 81, 255, 0.377);
+}
+
+#toggled-costofGoodsAndServicesSold {
+  background-color: rgba(231, 12, 12, 0.486);
+}
+
+#toggled-toggleGrossProfit {
+  background-color: rgba(30, 231, 12, 0.486);
+}
+
+#toggled-toggleOperatingExpenses {
+  background-color: rgba(231, 12, 12, 0.486);
+}
+
+#toggled-operatingIncome {
+  background-color: rgba(231, 12, 12, 0.486);
+}
+
+#toggled-otherNonOperatingIncome {
+  background-color: rgba(231, 12, 12, 0.486);
+}
+
+#toggled-incomeBeforeTax {
+  background-color: rgba(231, 12, 12, 0.486);
+}
+
+#toggled-taxes {
+  background-color: rgba(231, 12, 12, 0.486);
+}
+
+#toggled-netIncome {
+  background-color: rgba(255, 255, 0, 0.377);
+}
+
+
+
+#toggled-totalAssets {
+  background-color: rgba(0, 81, 255, 0.377);
+}
+
+#toggled-totalLiabilities {
+  background-color: rgba(3, 245, 164, 0.418);
+}
+
+#toggled-totalEquity {
+  background-color: rgba(255, 238, 0, 0.39);
+}
+
+
+
+#toggled-operatingCashflow {
+  background-color: rgba(0, 81, 255, 0.377);
+}
+
+#toggled-investingCashflow {
+  background-color: rgba(3, 245, 164, 0.418);
+}
+
+#toggled-financingCashflow {
+  background-color: rgba(255, 77, 225, 0.432);
+}
+
+#toggled-freeCashflow {
+  background-color: rgba(255, 238, 0, 0.39);
+}
