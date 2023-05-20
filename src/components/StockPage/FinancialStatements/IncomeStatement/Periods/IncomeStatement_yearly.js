@@ -3,13 +3,25 @@ import { useParams, Link, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
 
-import { getFinancialStatementsToggled } from '../../../../../actions/financialStatementsToggled'
+import { getFinancialStatementsDropdown } from '../../../../../actions/financialStatementsDropdown'
+import { getFinancialStatementsExtras } from '../../../../../actions/financialStatementsExtras'
+
+import RowDropdown from '../../RowDropdown'
+import TableRow from '../../TableRow'
 
 
 
-export default function BalanceSheet_yearly({ toggledMetrics, setToggledMetrics }) {
+export default function IncomeStatement_yearly({ toggledMetrics, setToggledMetrics }) {
   const location = useLocation()
   const dispatch = useDispatch()
+
+  const financialStatementsDropdown = useSelector((state) => state.getFinancialStatementsDropdown)
+
+  const [totalRevenueDropdown, setTotalRevenueDropdown] = useState(false)
+  const [costOfGoodsAndServicesSoldDropdown, setCostOfGoodsAndServicesSoldDropdown] = useState(false)
+
+  const [totalRevenueExtras, setTotalRevenueExtras] = useState({ YoY: false, margin: false })
+  const [costOfGoodsAndServicesSoldExtras, setTostOfGoodsAndServicesSoldExtras] = useState({ YoY: false, margin: false })
 
   const stock = location.state
   const annualReports = stock.FinancialStatements.IncomeStatement.annualReports
@@ -17,7 +29,16 @@ export default function BalanceSheet_yearly({ toggledMetrics, setToggledMetrics 
   const fiscalYears = [...new Set(annualReports.map((report) => report.fiscalDateEnding.split('-')[0]))];
   fiscalYears.reverse()
 
-  console.log(fiscalYears)
+
+  useEffect(() => {
+    console.log('Is', totalRevenueDropdown)
+    dispatch(getFinancialStatementsDropdown({ totalRevenueDropdown: totalRevenueDropdown }))
+  }, [totalRevenueDropdown])
+
+  useEffect(() => {
+    console.log('Is', costOfGoodsAndServicesSoldDropdown)
+    dispatch(getFinancialStatementsDropdown({ costOfGoodsAndServicesSoldDropdown: costOfGoodsAndServicesSoldDropdown }))
+  }, [costOfGoodsAndServicesSoldDropdown])
 
 
   function formatNumber(num) {
@@ -54,71 +75,33 @@ export default function BalanceSheet_yearly({ toggledMetrics, setToggledMetrics 
           <tbody>
 
             {/* Total Revenue*/}
-            {toggledMetrics.toggleTotalRevenue ?
-              <tr id="toggled-totalRevenue" onClick={() => {
-                if (!toggledMetrics.toggleTotalRevenue) {
-                  setToggledMetrics.setToggleTotalRevenue(true)
-                } else {
-                  setToggledMetrics.setToggleTotalRevenue(false)
-                }
-              }}>
-                <td>Total Revenue</td>
-                {fiscalYears.map((year) => (
-                  <td key={year}>
-                    {formatNumber(annualReports.find((report) => report.fiscalDateEnding.startsWith(year))?.totalRevenue)}
-                  </td>
-                ))}
-              </tr>
-              :
-              <tr onClick={() => {
-                if (!toggledMetrics.toggleTotalRevenue) {
-                  setToggledMetrics.setToggleTotalRevenue(true)
-                } else {
-                  setToggledMetrics.setToggleTotalRevenue(false)
-                }
-              }}>
-                <td>Total Revenue</td>
-                {fiscalYears.map((year) => (
-                  <td key={year}>
-                    {formatNumber(annualReports.find((report) => report.fiscalDateEnding.startsWith(year))?.totalRevenue)}
-                  </td>
-                ))}
-              </tr>
-            }
+            <TableRow
+              metric={'Total Revenue'}
+              metricValue={'totalRevenue'}
+              toggledID={'toggled-totalRevenue'}
+              fiscalPeriods={fiscalYears}
+              dropdown={financialStatementsDropdown.totalRevenueDropdown}
+              setDropdown={setTotalRevenueDropdown}
+              reports={annualReports}
+              extras={totalRevenueExtras}
+              setExtras={setTotalRevenueExtras}
+              toggledMetric={toggledMetrics.toggleTotalRevenue}
+              setToggledMetric={setToggledMetrics.setToggleTotalRevenue} />
 
+            {/* Cost of Goods and Services sold */}
+            <TableRow
+              metric={'Cost of Goods and Services Sold'}
+              metricValue={'costofGoodsAndServicesSold'}
+              toggledID={'toggled-costofGoodsAndServicesSold'}
+              fiscalPeriods={fiscalYears}
+              dropdown={financialStatementsDropdown.costOfGoodsAndServicesSoldDropdown}
+              setDropdown={setCostOfGoodsAndServicesSoldDropdown}
+              reports={annualReports}
+              extras={costOfGoodsAndServicesSoldExtras}
+              setExtras={setTostOfGoodsAndServicesSoldExtras}
+              toggledMetric={toggledMetrics.toggleCostOfGoodsAndServicesSold}
+              setToggledMetric={setToggledMetrics.setToggleCostOfGoodsAndServicesSold} />
 
-            {/* Cost of Goods and Services Sold */}
-            {toggledMetrics.toggleCostOfGoodsAndServicesSold ?
-              <tr id="toggled-costofGoodsAndServicesSold" onClick={() => {
-                if (!toggledMetrics.toggleCostOfGoodsAndServicesSold) {
-                  setToggledMetrics.setToggleCostOfGoodsAndServicesSold(true)
-                } else {
-                  setToggledMetrics.setToggleCostOfGoodsAndServicesSold(false)
-                }
-              }}>
-                <td>Cost of Goods and Services Sold</td>
-                {fiscalYears.map((year) => (
-                  <td key={year}>
-                    {formatNumber(annualReports.find((report) => report.fiscalDateEnding.startsWith(year))?.costofGoodsAndServicesSold)}
-                  </td>
-                ))}
-              </tr>
-              :
-              <tr onClick={() => {
-                if (!toggledMetrics.toggleCostOfGoodsAndServicesSold) {
-                  setToggledMetrics.setToggleCostOfGoodsAndServicesSold(true)
-                } else {
-                  setToggledMetrics.setToggleCostOfGoodsAndServicesSold(false)
-                }
-              }}>
-                <td>Cost of Goods and Services Sold</td>
-                {fiscalYears.map((year) => (
-                  <td key={year}>
-                    {formatNumber(annualReports.find((report) => report.fiscalDateEnding.startsWith(year))?.costofGoodsAndServicesSold)}
-                  </td>
-                ))}
-              </tr>
-            }
 
 
             {/* Gross Profit */}

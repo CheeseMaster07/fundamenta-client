@@ -7,7 +7,7 @@ import { getFinancialStatementsToggled } from '../../../../../actions/financialS
 
 
 
-export default function BalanceSheet_quarterly({ toggledMetrics, setToggledMetrics }) {
+export default function IncomeStatement_quarterly({ toggledMetrics, setToggledMetrics }) {
   const location = useLocation()
   const dispatch = useDispatch()
 
