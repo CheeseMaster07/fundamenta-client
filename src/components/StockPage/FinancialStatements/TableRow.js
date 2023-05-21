@@ -3,7 +3,7 @@ import React from 'react'
 import RowDropdown from './RowDropdown'
 
 
-export default function TableRow({ metric, metricValue, toggledID, fiscalPeriods, reports, dropdown, setDropdown, extras, setExtras, toggledMetric, setToggledMetric }) {
+export default function TableRow({ metric, metricName, metricValue, toggledID, typeOfRow, fiscalPeriods, reports, dropdown, setDropdown, extras, setExtras, toggledMetric, setToggledMetric }) {
   function formatNumber(num) {
     if (typeof num === 'number') {
       num = num.toString()
@@ -28,27 +28,28 @@ export default function TableRow({ metric, metricValue, toggledID, fiscalPeriods
         setToggledMetric(false)
       }
     }}>
-      <td className='row-name-dropdown'>
-        <div className="row-dropdown" onClick={(event) => {
+      <td id={typeOfRow} className='row-name-dropdown'>
+        {typeOfRow == 'real-row' ? <div className="row-dropdown" onClick={(event) => {
           event.stopPropagation();
           if (!dropdown) {
-            console.log(dropdown, 'To True')
             setDropdown(true)
           } else {
-            console.log(dropdown, 'To false')
             setDropdown(false)
           }
         }}>{dropdown ? <>&#8722;</> : <>&#43;</>}
           {dropdown ?
-            <RowDropdown extras={extras} setExtras={setExtras} />
+            <RowDropdown metric={metric} extras={extras} setExtras={setExtras} />
             :
             ''}
         </div>
-        <div>{metric}</div>
+          : ''}
+        {typeOfRow == 'real-row' ? <div>{metricName}</div> : ''}
+        {typeOfRow == 'YoY-row' ? <div>Year over Year</div> : ''}
+
       </td>
       {
         fiscalPeriods.map((year) => (
-          <td key={year}>
+          <td id={typeOfRow} key={year}>
             {formatNumber(reports.find((report) => report.fiscalDateEnding.startsWith(year))[metricValue])}
           </td>
         ))

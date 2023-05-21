@@ -5,11 +5,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getFinancialStatementsExtras } from '../../../actions/financialStatementsExtras'
 
 
-export default function RowDropdown({ extras, setExtras }) {
+export default function RowDropdown({ metric, extras, setExtras }) {
   const dispatch = useDispatch()
-
+  const name = `${metric}Extras`
   useEffect(() => {
-    dispatch(getFinancialStatementsExtras({ extras: extras }))
+    dispatch(getFinancialStatementsExtras({ [name]: extras }))
   }, [extras])
 
   return (

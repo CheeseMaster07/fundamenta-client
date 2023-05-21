@@ -1,8 +1,8 @@
-export const getFinancialStatementsExtras = (extra) => async (dispatch) => {
+export const getFinancialStatementsExtras = (extras) => async (dispatch) => {
 
   try {
 
-    const data = extra
+    const data = extras
 
     dispatch({ type: 'FETCH_EXTRAS', payload: data });
   } catch (error) {

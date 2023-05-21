@@ -36,6 +36,13 @@
 .table-quarterly tbody tr {
   background-color: rgb(22, 22, 22);
   cursor: pointer;
+
+}
+
+#YoY-row {
+  padding: 5px 16px;
+  font-size: 21px;
+  font-style: italic;
 }
 
 .table tbody tr:hover,
@@ -62,14 +69,15 @@
   position: relative;
   border-radius: 3px;
   padding: 0 8px;
-  margin-right: 8px;
+  margin-right: 12px;
   background-color: rgba(128, 128, 128, 0.199);
 }
 
 .row-dropdown-menu {
   font-size: 20px;
   position: absolute;
-  left: 0;
+  right: 3.5rem;
+  margin-top: -2.9rem;
   top: calc(100% + .4rem);
   background-color: rgb(36, 36, 36);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.11);
@@ -80,6 +88,8 @@
   width: 180px;
   padding: .5rem 1rem;
   border: 2px;
+  border-radius: .2rem;
+
 }
 
 .row-dropdown-row:hover {

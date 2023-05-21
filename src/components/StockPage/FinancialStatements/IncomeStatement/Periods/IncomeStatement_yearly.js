@@ -12,33 +12,20 @@ import TableRow from '../../TableRow'
 
 
 export default function IncomeStatement_yearly({ toggledMetrics, setToggledMetrics }) {
-  const location = useLocation()
-  const dispatch = useDispatch()
+  const location = useLocation();
+  const dispatch = useDispatch();
 
-  const financialStatementsDropdown = useSelector((state) => state.getFinancialStatementsDropdown)
+  const financialStatementsDropdown = useSelector((state) => state.getFinancialStatementsDropdown);
 
-  const [totalRevenueDropdown, setTotalRevenueDropdown] = useState(false)
-  const [costOfGoodsAndServicesSoldDropdown, setCostOfGoodsAndServicesSoldDropdown] = useState(false)
+  const [totalRevenueExtras, setTotalRevenueExtras] = useState({ YoY: false, margin: false });
+  const [costOfGoodsAndServicesSoldExtras, setCostOfGoodsAndServicesSoldExtras] = useState({ YoY: false, margin: false });
 
-  const [totalRevenueExtras, setTotalRevenueExtras] = useState({ YoY: false, margin: false })
-  const [costOfGoodsAndServicesSoldExtras, setTostOfGoodsAndServicesSoldExtras] = useState({ YoY: false, margin: false })
 
-  const stock = location.state
-  const annualReports = stock.FinancialStatements.IncomeStatement.annualReports
+  const stock = location.state;
+  const annualReports = stock.FinancialStatements.IncomeStatement.annualReports;
 
   const fiscalYears = [...new Set(annualReports.map((report) => report.fiscalDateEnding.split('-')[0]))];
-  fiscalYears.reverse()
-
-
-  useEffect(() => {
-    console.log('Is', totalRevenueDropdown)
-    dispatch(getFinancialStatementsDropdown({ totalRevenueDropdown: totalRevenueDropdown }))
-  }, [totalRevenueDropdown])
-
-  useEffect(() => {
-    console.log('Is', costOfGoodsAndServicesSoldDropdown)
-    dispatch(getFinancialStatementsDropdown({ costOfGoodsAndServicesSoldDropdown: costOfGoodsAndServicesSoldDropdown }))
-  }, [costOfGoodsAndServicesSoldDropdown])
+  fiscalYears.reverse();
 
 
   function formatNumber(num) {
@@ -76,273 +63,184 @@ export default function IncomeStatement_yearly({ toggledMetrics, setToggledMetri
 
             {/* Total Revenue*/}
             <TableRow
-              metric={'Total Revenue'}
+              metric={'totalRevenue'}
+              metricName={'Total Revenue'}
               metricValue={'totalRevenue'}
               toggledID={'toggled-totalRevenue'}
+              typeOfRow={'real-row'}
               fiscalPeriods={fiscalYears}
               dropdown={financialStatementsDropdown.totalRevenueDropdown}
-              setDropdown={setTotalRevenueDropdown}
+              setDropdown={(value) => dispatch(getFinancialStatementsDropdown({ totalRevenueDropdown: value }))}
               reports={annualReports}
               extras={totalRevenueExtras}
               setExtras={setTotalRevenueExtras}
               toggledMetric={toggledMetrics.toggleTotalRevenue}
               setToggledMetric={setToggledMetrics.setToggleTotalRevenue} />
 
+            {totalRevenueExtras.YoY ?
+              <TableRow
+                metric={'totalRevenue'}
+                metricName={'Total Revenue'}
+                metricValue={'totalRevenue'}
+                toggledID={'toggled-totalRevenue'}
+                typeOfRow={'YoY-row'}
+                fiscalPeriods={fiscalYears}
+                dropdown={financialStatementsDropdown.totalRevenueDropdown}
+                setDropdown={(value) => dispatch(getFinancialStatementsDropdown({ totalRevenueDropdown: value }))}
+                reports={annualReports}
+                extras={totalRevenueExtras}
+                setExtras={setTotalRevenueExtras}
+                toggledMetric={toggledMetrics.toggleTotalRevenue}
+                setToggledMetric={setToggledMetrics.setToggleTotalRevenue} />
+
+              :
+              ''
+            }
+
             {/* Cost of Goods and Services sold */}
             <TableRow
-              metric={'Cost of Goods and Services Sold'}
+              metric={'costofGoodsAndServicesSold'}
+              metricName={'Cost of Goods and Services Sold'}
               metricValue={'costofGoodsAndServicesSold'}
               toggledID={'toggled-costofGoodsAndServicesSold'}
+              typeOfRow={'real-row'}
+
               fiscalPeriods={fiscalYears}
               dropdown={financialStatementsDropdown.costOfGoodsAndServicesSoldDropdown}
-              setDropdown={setCostOfGoodsAndServicesSoldDropdown}
+              setDropdown={(value) => dispatch(getFinancialStatementsDropdown({ costOfGoodsAndServicesSoldDropdown: value }))}
               reports={annualReports}
               extras={costOfGoodsAndServicesSoldExtras}
-              setExtras={setTostOfGoodsAndServicesSoldExtras}
+              setExtras={setCostOfGoodsAndServicesSoldExtras}
               toggledMetric={toggledMetrics.toggleCostOfGoodsAndServicesSold}
               setToggledMetric={setToggledMetrics.setToggleCostOfGoodsAndServicesSold} />
 
 
 
             {/* Gross Profit */}
-            {toggledMetrics.toggleGrossProfit ?
-              <tr id="toggled-toggleGrossProfit" onClick={() => {
-                if (!toggledMetrics.toggleGrossProfit) {
-                  setToggledMetrics.setToggleGrossProfit(true)
-                } else {
-                  setToggledMetrics.setToggleGrossProfit(false)
-                }
-              }}>
-                <td>Gross Profit</td>
-                {fiscalYears.map((year) => (
-                  <td key={year}>
-                    {formatNumber(annualReports.find((report) => report.fiscalDateEnding.startsWith(year))?.grossProfit)}
-                  </td>
-                ))}
-              </tr>
-              :
-              <tr onClick={() => {
-                if (!toggledMetrics.toggleGrossProfit) {
-                  setToggledMetrics.setToggleGrossProfit(true)
-                } else {
-                  setToggledMetrics.setToggleGrossProfit(false)
-                }
-              }}>
-                <td>Gross Profit</td>
-                {fiscalYears.map((year) => (
-                  <td key={year}>
-                    {formatNumber(annualReports.find((report) => report.fiscalDateEnding.startsWith(year))?.grossProfit)}
-                  </td>
-                ))}
-              </tr>
-            }
+            <TableRow
+              metric={'grossProfit'}
+              metricName={'Gross Profit'}
+              metricValue={'grossProfit'}
+              toggledID={'toggled-toggleGrossProfit'}
+              typeOfRow={'real-row'}
+
+              fiscalPeriods={fiscalYears}
+              dropdown={financialStatementsDropdown.grossProfitDropdown}
+              setDropdown={(value) => dispatch(getFinancialStatementsDropdown({ grossProfitDropdown: value }))}
+              reports={annualReports}
+              extras={costOfGoodsAndServicesSoldExtras}
+              setExtras={setCostOfGoodsAndServicesSoldExtras}
+              toggledMetric={toggledMetrics.toggleGrossProfit}
+              setToggledMetric={setToggledMetrics.setToggleGrossProfit} />
 
 
 
             {/* Operating Expenses */}
-            {toggledMetrics.toggleOperatingExpenses ?
-              <tr id="toggled-toggleOperatingExpenses" onClick={() => {
-                if (!toggledMetrics.toggleOperatingExpenses) {
-                  setToggledMetrics.setToggleOperatingExpenses(true)
-                } else {
-                  setToggledMetrics.setToggleOperatingExpenses(false)
-                }
-              }}>
-                <td>Operating Expenses</td>
-                {fiscalYears.map((year) => (
-                  <td key={year}>
-                    {formatNumber(annualReports.find((report) => report.fiscalDateEnding.startsWith(year))?.operatingExpenses)}
-                  </td>
-                ))}
-              </tr>
-              :
-              <tr onClick={() => {
-                if (!toggledMetrics.toggleOperatingExpenses) {
-                  setToggledMetrics.setToggleOperatingExpenses(true)
-                } else {
-                  setToggledMetrics.setToggleOperatingExpenses(false)
-                }
-              }}>
-                <td>Operating Expenses</td>
-                {fiscalYears.map((year) => (
-                  <td key={year}>
-                    {formatNumber(annualReports.find((report) => report.fiscalDateEnding.startsWith(year))?.operatingExpenses)}
-                  </td>
-                ))}
-              </tr>
-            }
+            <TableRow
+              metric={'operatingExpenses'}
+              metricName={'Operating Expenses'}
+              metricValue={'operatingExpenses'}
+              toggledID={'toggled-toggleOperatingExpenses'}
+              typeOfRow={'real-row'}
+
+              fiscalPeriods={fiscalYears}
+              dropdown={financialStatementsDropdown.operatingExpensesDropdown}
+              setDropdown={(value) => dispatch(getFinancialStatementsDropdown({ operatingExpensesDropdown: value }))}
+              reports={annualReports}
+              extras={costOfGoodsAndServicesSoldExtras}
+              setExtras={setCostOfGoodsAndServicesSoldExtras}
+              toggledMetric={toggledMetrics.toggleOperatingExpenses}
+              setToggledMetric={setToggledMetrics.setToggleOperatingExpenses} />
 
 
             {/* Operating Income */}
-            {toggledMetrics.toggleOperatingIncome ?
-              <tr id="toggled-operatingIncome" onClick={() => {
-                if (!toggledMetrics.toggleOperatingIncome) {
-                  setToggledMetrics.setToggleOperatingIncome(true)
-                } else {
-                  setToggledMetrics.setToggleOperatingIncome(false)
-                }
-              }}>
-                <td>Operating Income</td>
-                {fiscalYears.map((year) => (
-                  <td key={year}>
-                    {formatNumber(annualReports.find((report) => report.fiscalDateEnding.startsWith(year))?.operatingIncome)}
-                  </td>
-                ))}
-              </tr>
-              :
-              <tr onClick={() => {
-                if (!toggledMetrics.toggleOperatingIncome) {
-                  setToggledMetrics.setToggleOperatingIncome(true)
-                } else {
-                  setToggledMetrics.setToggleOperatingIncome(false)
-                }
-              }}>
-                <td>Operating Income</td>
-                {fiscalYears.map((year) => (
-                  <td key={year}>
-                    {formatNumber(annualReports.find((report) => report.fiscalDateEnding.startsWith(year))?.operatingIncome)}
-                  </td>
-                ))}
-              </tr>
-            }
+            <TableRow
+              metric={'operatingIncome'}
+              metricName={'Operating Income'}
+              metricValue={'operatingIncome'}
+              toggledID={'toggled-operatingIncome'}
+              typeOfRow={'real-row'}
+
+              fiscalPeriods={fiscalYears}
+              dropdown={financialStatementsDropdown.operatingIncomeDropdown}
+              setDropdown={(value) => dispatch(getFinancialStatementsDropdown({ operatingIncomeDropdown: value }))}
+              reports={annualReports}
+              extras={costOfGoodsAndServicesSoldExtras}
+              setExtras={setCostOfGoodsAndServicesSoldExtras}
+              toggledMetric={toggledMetrics.toggleOperatingIncome}
+              setToggledMetric={setToggledMetrics.setToggleOperatingIncome} />
 
 
             {/* Non-operating income */}
-            {toggledMetrics.toggleNonOperatingIncome ?
-              <tr id="toggled-otherNonOperatingIncome" onClick={() => {
-                if (!toggledMetrics.toggleNonOperatingIncome) {
-                  setToggledMetrics.setToggleNonOperatingIncome(true)
-                } else {
-                  setToggledMetrics.setToggleNonOperatingIncome(false)
-                }
-              }}>
-                <td>Non-operating income</td>
-                {fiscalYears.map((year) => (
-                  <td key={year}>
-                    {formatNumber(annualReports.find((report) => report.fiscalDateEnding.startsWith(year))?.otherNonOperatingIncome)}
-                  </td>
-                ))}
-              </tr>
-              :
-              <tr onClick={() => {
-                if (!toggledMetrics.toggleNonOperatingIncome) {
-                  setToggledMetrics.setToggleNonOperatingIncome(true)
-                } else {
-                  setToggledMetrics.setToggleNonOperatingIncome(false)
-                }
-              }}>
-                <td>Non-operating income</td>
-                {fiscalYears.map((year) => (
-                  <td key={year}>
-                    {formatNumber(annualReports.find((report) => report.fiscalDateEnding.startsWith(year))?.otherNonOperatingIncome)}
-                  </td>
-                ))}
-              </tr>
-            }
+            <TableRow
+              metric={'nonOperatingIncome'}
+              metricName={'Non Operating Income'}
+              metricValue={'otherNonOperatingIncome'}
+              toggledID={'toggled-otherNonOperatingIncome'}
+              typeOfRow={'real-row'}
+
+              fiscalPeriods={fiscalYears}
+              dropdown={financialStatementsDropdown.nonOperatingIncomeDropdown}
+              setDropdown={(value) => dispatch(getFinancialStatementsDropdown({ nonOperatingIncomeDropdown: value }))}
+              reports={annualReports}
+              extras={costOfGoodsAndServicesSoldExtras}
+              setExtras={setCostOfGoodsAndServicesSoldExtras}
+              toggledMetric={toggledMetrics.toggleNonOperatingIncome}
+              setToggledMetric={setToggledMetrics.setToggleNonOperatingIncome} />
 
 
             {/* Pretax Income */}
-            {toggledMetrics.togglePretaxIncome ?
-              <tr id="toggled-incomeBeforeTax" onClick={() => {
-                if (!toggledMetrics.togglePretaxIncome) {
-                  setToggledMetrics.setTogglePretaxIncome(true)
-                } else {
-                  setToggledMetrics.setTogglePretaxIncome(false)
-                }
-              }}>
-                <td>Pretax Income</td>
-                {fiscalYears.map((year) => (
-                  <td key={year}>
-                    {formatNumber(annualReports.find((report) => report.fiscalDateEnding.startsWith(year))?.incomeBeforeTax)}
-                  </td>
-                ))}
-              </tr>
-              :
-              <tr onClick={() => {
-                if (!toggledMetrics.togglePretaxIncome) {
-                  setToggledMetrics.setTogglePretaxIncome(true)
-                } else {
-                  setToggledMetrics.setTogglePretaxIncome(false)
-                }
-              }}>
-                <td>Pretax Income</td>
-                {fiscalYears.map((year) => (
-                  <td key={year}>
-                    {formatNumber(annualReports.find((report) => report.fiscalDateEnding.startsWith(year))?.incomeBeforeTax)}
-                  </td>
-                ))}
-              </tr>
-            }
+            <TableRow
+              metric={'pretaxIncome'}
+              metricName={'Pretax Income'}
+              metricValue={'incomeBeforeTax'}
+              toggledID={'toggled-incomeBeforeTax'}
+              typeOfRow={'real-row'}
 
+              fiscalPeriods={fiscalYears}
+              dropdown={financialStatementsDropdown.pretaxIncomeDropdown}
+              setDropdown={(value) => dispatch(getFinancialStatementsDropdown({ pretaxIncomeDropdown: value }))}
+              reports={annualReports}
+              extras={costOfGoodsAndServicesSoldExtras}
+              setExtras={setCostOfGoodsAndServicesSoldExtras}
+              toggledMetric={toggledMetrics.togglePretaxIncome}
+              setToggledMetric={setToggledMetrics.setTogglePretaxIncome} />
 
 
             {/* Taxes */}
-            {toggledMetrics.toggleTaxes ?
-              <tr id="toggled-taxes" onClick={() => {
-                if (!toggledMetrics.toggleTaxes) {
-                  setToggledMetrics.setToggleTaxes(true)
-                } else {
-                  setToggledMetrics.setToggleTaxes(false)
-                }
-              }}>
-                <td>Taxes</td>
-                {fiscalYears.map((year) => (
-                  <td key={year}>
-                    {formatNumber(annualReports.find((report) => report.fiscalDateEnding.startsWith(year))?.incomeTaxExpense)}
-                  </td>
-                ))}
-              </tr>
-              :
-              <tr onClick={() => {
-                if (!toggledMetrics.toggleTaxes) {
-                  setToggledMetrics.setToggleTaxes(true)
-                } else {
-                  setToggledMetrics.setToggleTaxes(false)
-                }
-              }}>
-                <td>Taxes</td>
-                {fiscalYears.map((year) => (
-                  <td key={year}>
-                    {formatNumber(annualReports.find((report) => report.fiscalDateEnding.startsWith(year))?.incomeTaxExpense)}
-                  </td>
-                ))}
-              </tr>
-            }
+            <TableRow
+              metric={'taxes'}
+              metricName={'Taxes'}
+              metricValue={'incomeTaxExpense'}
+              toggledID={'toggled-taxes'}
+              typeOfRow={'real-row'}
 
+              fiscalPeriods={fiscalYears}
+              dropdown={financialStatementsDropdown.taxesDropdown}
+              setDropdown={(value) => dispatch(getFinancialStatementsDropdown({ taxesDropdown: value }))}
+              reports={annualReports}
+              extras={costOfGoodsAndServicesSoldExtras}
+              setExtras={setCostOfGoodsAndServicesSoldExtras}
+              toggledMetric={toggledMetrics.toggleTaxes}
+              setToggledMetric={setToggledMetrics.setToggleTaxes} />
 
 
             {/* Net Income */}
-            {toggledMetrics.toggleNetIncome ?
-              <tr id="toggled-netIncome" onClick={() => {
-                if (!toggledMetrics.toggleNetIncome) {
-                  setToggledMetrics.setToggleNetIncome(true)
-                } else {
-                  setToggledMetrics.setToggleNetIncome(false)
-                }
-              }}>
-                <td>Net Income</td>
-                {fiscalYears.map((year) => (
-                  <td key={year}>
-                    {formatNumber(annualReports.find((report) => report.fiscalDateEnding.startsWith(year))?.netIncome)}
-                  </td>
-                ))}
-              </tr>
-              :
-              <tr onClick={() => {
-                if (!toggledMetrics.toggleNetIncome) {
-                  setToggledMetrics.setToggleNetIncome(true)
-                } else {
-                  setToggledMetrics.setToggleNetIncome(false)
-                }
-              }}>
-                <td>Net Income</td>
-                {fiscalYears.map((year) => (
-                  <td key={year}>
-                    {formatNumber(annualReports.find((report) => report.fiscalDateEnding.startsWith(year))?.netIncome)}
-                  </td>
-                ))}
-              </tr>
-            }
+            <TableRow
+              metric={'netIncome'}
+              metricName={'Net Income'}
+              metricValue={'netIncome'}
+              toggledID={'toggled-netIncome'}
+              typeOfRow={'real-row'}
+
+              fiscalPeriods={fiscalYears}
+              dropdown={financialStatementsDropdown.netIncomeDropdown}
+              setDropdown={(value) => dispatch(getFinancialStatementsDropdown({ netIncomeDropdown: value }))}
+              reports={annualReports}
+              extras={costOfGoodsAndServicesSoldExtras}
+              setExtras={setCostOfGoodsAndServicesSoldExtras}
+              toggledMetric={toggledMetrics.toggleNetIncome}
+              setToggledMetric={setToggledMetrics.setToggleNetIncome} />
 
 
           </tbody>

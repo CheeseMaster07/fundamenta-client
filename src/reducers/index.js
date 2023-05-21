@@ -5,7 +5,7 @@ import getFinancialStatementsToggled from './financialStatementsToggled';
 import getIsYearlyorQuarterly from './isYearlyOrQuarterly';
 import whichFinancialStatement from './whichFinancialStatement';
 import getFinancialStatementsDropdown from './financialStatementsDropdown';
-import financialStatementsExtras from './financialStatementsExtras';
+import getFinancialStatementsExtras from './financialStatementsExtras';
 
 const rootReducer = combineReducers({
   stocks: stocksReducer,
@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
   getIsYearlyorQuarterly: getIsYearlyorQuarterly,
   whichFinancialStatement: whichFinancialStatement,
   getFinancialStatementsDropdown: getFinancialStatementsDropdown,
-  financialStatementsExtras: financialStatementsExtras,
+  getFinancialStatementsExtras: getFinancialStatementsExtras,
 });
 
 export default rootReducer;

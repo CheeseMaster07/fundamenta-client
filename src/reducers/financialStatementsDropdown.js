@@ -1,11 +1,17 @@
 export default (getFinancialStatementsDropdown = {
 
   totalRevenueDropdown: false,
-  costOfGoodsAndServicesSoldDropdown: false
+  costOfGoodsAndServicesSoldDropdown: false,
+  grossProfitDropdown: false,
+  operatingExpensesDropdown: false,
+  operatingIncomeDropdown: false,
+  nonOperatingIncomeDropdown: false,
+  pretaxIncomeDropdown: false,
+  taxesDropdown: false,
+  netIncomeDropdown: false
 
 
 }, action) => {
-  console.log(action.payload)
   switch (action.type) {
 
     case 'FETCH_DROPDOWN':
