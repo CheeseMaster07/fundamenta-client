@@ -1,5 +1,10 @@
 body {
   font-family: 'Roboto', sans-serif;
   background-color: rgb(10, 10, 10);
-  color: white
+  color: white;
+  height: 100rem;
+}
+
+span {
+  margin-right: 4px;
 }

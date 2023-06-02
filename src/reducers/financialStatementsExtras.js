@@ -1,27 +1,29 @@
-export default (getFinancialStatementsExtras = {
-
+const initialState = {
   totalRevenueExtras: { YoY: false, margin: false },
-  costofGoodsAndServicesSoldExtras: { YoY: false, margin: false },
+  costOfGoodsAndServicesSoldExtras: { YoY: false, margin: false },
+  grossProfitExtras: { YoY: false, margin: false },
+  operatingExpensesExtras: { YoY: false, margin: false },
+  operatingIncomeExtras: { YoY: false, margin: false },
+  nonOperatingIncomeExtras: { YoY: false, margin: false },
+  pretaxIncomeExtras: { YoY: false, margin: false },
+  taxesExtras: { YoY: false, margin: false },
+  netIncomeExtras: { YoY: false, margin: false },
+};
 
-
-}, action) => {
-
+export default function financialStatementsExtrasReducer(state = initialState, action) {
   switch (action.type) {
     case 'FETCH_EXTRAS':
+      const { payload } = action;
+      const newState = { ...state };
 
-      Object.keys(getFinancialStatementsExtras).forEach((key) => {
-        console.log(key)
-        console.log(Object.keys(action.payload)[0])
-        if (Object.keys(action.payload)[0] == key) {
-
-          getFinancialStatementsExtras[key] = action.payload[key]
+      Object.keys(newState).forEach((key) => {
+        if (Object.keys(payload)[0] === key) {
+          newState[key] = payload[key];
         }
-
       });
-      console.log(getFinancialStatementsExtras)
 
-      return getFinancialStatementsExtras;
+      return newState;
     default:
-      return getFinancialStatementsExtras
+      return state;
   }
 }

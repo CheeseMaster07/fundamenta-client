@@ -1,22 +1,56 @@
 export default (getFinancialStatementsToggled = {
 
   toggleTotalRevenue: false,
+  toggleTotalRevenueYoY: false,
+
   toggleCostOfGoodsAndServicesSold: false,
+  toggleCostOfGoodsAndServicesSoldYoY: false,
+  toggleCostOfGoodsAndServicesSoldMargin: false,
+
   toggleGrossProfit: false,
+  toggleGrossProfitYoY: false,
+  toggleGrossProfitMargin: false,
+
   toggleOperatingExpenses: false,
+  toggleOperatingExpensesYoY: false,
+  toggleOperatingExpensesMargin: false,
+
   toggleOperatingIncome: false,
+  toggleOperatingIncomeYoY: false,
+  toggleOperatingIncomeMargin: false,
+
   toggleNonOperatingIncome: false,
+  toggleNonOperatingIncomeYoY: false,
+  toggleNonOperatingIncomeMargin: false,
+
   togglePretaxIncome: false,
+  togglePretaxIncomeYoY: false,
+  togglePretaxIncomeMargin: false,
+
   toggleTaxes: false,
+  toggleTaxesYoY: false,
+  toggleTaxesMargin: false,
+
   toggleNetIncome: false,
+  toggleNetIncomeYoY: false,
+  toggleNetIncomeMargin: false,
+
+
 
   toggleTotalAssets: false,
+
   toggleTotalLiabilities: false,
+
   toggleTotalEquity: false,
 
+
+
   toggleOperatingCashflow: false,
+
   toggleInvestingCashflow: false,
+
   toggleFinancingCashflow: false,
+
   toggleFreeCashflow: false,
 
 }, action) => {

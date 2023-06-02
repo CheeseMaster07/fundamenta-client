@@ -7,8 +7,10 @@ import '../../../css/financialStatementsHeader.css'
 
 import BarChart from '../../Charts/BarChart'
 import LineChart from '../../Charts/LineChart'
+import Button from '../Button'
 import { getIsYearlyOrQuarterly } from '../../../actions/isYearlyorQuarterly'
 import { getWhichFinancialStatement } from '../../../actions/whichFinancialStatement'
+import { getFinancialStatementsExtras } from '../../../actions/financialStatementsExtras'
 
 
 export default function FinancialStatementsHeader() {
@@ -17,8 +19,7 @@ export default function FinancialStatementsHeader() {
   const financialStatementsToggled = useSelector((state) => state.getFinancialStatementsToggled)
   const financialStatement = useSelector((state) => state.whichFinancialStatement)
   const isYearlyorQuarterly = useSelector((state) => state.getIsYearlyorQuarterly)
-
-
+  const financialStatementsExtras = useSelector((state) => state.getFinancialStatementsExtras);
   const location = useLocation()
   const linkUrl_IncomeStatement = `/stocks/${id}/financial-statements/income-statement`
   const linkUrl_BalanceSheet = `/stocks/${id}/financial-statements/balance-sheet`
@@ -27,9 +28,171 @@ export default function FinancialStatementsHeader() {
   let fiscalReports = stock.FinancialStatements.IncomeStatement.annualReports
   let fiscalPeriod = 'Year'
   let datasets = []
+  let chartOptions = {
+    maintainAspectRatio: false,
+    scales: {
+      x: {
+        ticks: {
+          color: 'white'
+        },
+        grid: {
+          display: false
+        }
+      },
+      y1: {
+        type: 'linear',
+        display: false,
+        position: 'left',
+        ticks: {
+          callback: function (value) {
+            if (Math.abs(value) >= 1000000000000) {
+              return (value / 1000000000000).toFixed(1) + 'T'
+            } else if (Math.abs(value) >= 1000000000) {
+              return (value / 1000000000).toFixed(1) + 'B';
+            } else if (Math.abs(value) >= 1000000) {
+              return (value / 1000000).toFixed(1) + 'M';
+            } else if (Math.abs(value) >= 1000) {
+              return (value / 1000).toFixed(1) + 'K';
+            } else {
+              return value;
+            }
+          },
+          color: 'white'
+        },
+        grid: {
+          color: 'rgb(30, 30, 30)'
+        }
+      },
+      y2: {
+        type: 'linear',
+        display: false,
+        position: 'right',
+        max: 0,
+        min: 1,
+        ticks: {
+          callback: function (value) {
+            return (value * 100).toFixed(0) + '%'; // convert it to percentage
+          },
+          color: 'white'
+        },
+        grid: {
+          display: false
+        }
+      },
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (data) {
+            if (data.dataset.yAxisID == 'y1') {
+              if (Math.abs(data.raw) >= 1000000000000) {
+                return (data.raw / 1000000000000).toFixed(1) + 'T'
+              } else if (Math.abs(data.raw) >= 1000000000) {
+                return (data.raw / 1000000000).toFixed(1) + 'B';
+              } else if (Math.abs(data.raw) >= 1000000) {
+                return (data.raw / 1000000).toFixed(1) + 'M';
+              } else if (Math.abs(data.raw) >= 1000) {
+                return (data.raw / 1000).toFixed(1) + 'K';
+              } else {
+                return data.raw;
+              }
+            } else if (data.dataset.yAxisID == 'y2') {
+              return (data.raw * 100).toFixed(2) + '%';
+            }
+          }
+        }
+      },
+      legend: {
+        labels: {
+          useBorderRadius: true,
+          borderRadius: 3,
+          usePointStyle: false,
+          pointStyle: false,
+          color: 'white'
+        }
+      },
+    }
+  }
+
   const [isYearly, setIsYearly] = useState(true)
   const [isQuarterly, setIsQuarterly] = useState(false)
   const [whichFinancialStatement, setWhichFinancialStatement] = useState('incomeStatement')
+  const [allYoY, setAllYoY] = useState(false)
+  const [allMargin, setAllMargin] = useState(false)
+  let isChoosedIncomeStatement
+  let isChoosedBalanceSheet
+  let isChoosedCashflowStatement
+  let isChoosedAllYoY
+  let isChoosedAllMargin
+  let isChoosedYearly
+  let isChoosedQuarterly
+
+  if (whichFinancialStatement === 'incomeStatement') {
+    isChoosedIncomeStatement = '-choosed'
+  } else {
+    isChoosedIncomeStatement = ''
+  }
+  if (whichFinancialStatement === 'balanceSheet') {
+    isChoosedBalanceSheet = '-choosed'
+  } else {
+    isChoosedBalanceSheet = ''
+  }
+  if (whichFinancialStatement === 'cashflowStatement') {
+    isChoosedCashflowStatement = '-choosed'
+  } else {
+    isChoosedCashflowStatement = ''
+  }
+  if (allYoY) {
+    isChoosedAllYoY = '-choosed'
+  } else {
+    isChoosedAllYoY = ''
+  }
+  if (allMargin) {
+    isChoosedAllMargin = '-choosed'
+  } else {
+    isChoosedAllMargin = ''
+  }
+  if (isYearly) {
+    isChoosedYearly = '-choosed'
+  } else {
+    isChoosedYearly = ''
+  }
+  if (isQuarterly) {
+    isChoosedQuarterly = '-choosed'
+  } else {
+    isChoosedQuarterly = ''
+  }
+
+  useEffect(() => {
+    if (allYoY) {
+      for (const metric in financialStatementsExtras) {
+        console.log(metric)
+        dispatch(getFinancialStatementsExtras({ [metric]: { YoY: true, margin: financialStatementsExtras[metric].margin } }))
+      }
+
+    } else {
+      for (const metric in financialStatementsExtras) {
+        dispatch(getFinancialStatementsExtras({ [metric]: { YoY: false, margin: financialStatementsExtras[metric].margin } }))
+      }
+
+    }
+  }, [allYoY, dispatch])
+
+  useEffect(() => {
+    if (allMargin) {
+      for (const metric in financialStatementsExtras) {
+        dispatch(getFinancialStatementsExtras({ [metric]: { YoY: financialStatementsExtras[metric].YoY, margin: true } }))
+      }
+
+    } else {
+      for (const metric in financialStatementsExtras) {
+        dispatch(getFinancialStatementsExtras({ [metric]: { YoY: financialStatementsExtras[metric].YoY, margin: false } }))
+      }
+
+    }
+  }, [allMargin, dispatch])
+
+
 
   useEffect(() => {
     dispatch(getIsYearlyOrQuarterly({ isYearly: isYearly }))
@@ -43,22 +206,6 @@ export default function FinancialStatementsHeader() {
     dispatch(getWhichFinancialStatement(whichFinancialStatement))
   }, [whichFinancialStatement])
 
-  function formatNumber(num) {
-    if (typeof num === 'number') {
-      num = num.toString()
-    }
-    if (Math.abs(num) >= 1000000000000) {
-      return (num / 1000000000000).toFixed(1) + 'T'
-    } else if (Math.abs(num) >= 1000000000) {
-      return (num / 1000000000).toFixed(1) + 'B';
-    } else if (Math.abs(num) >= 1000000) {
-      return (num / 1000000).toFixed(1) + 'M';
-    } else if (Math.abs(num) >= 1000) {
-      return (num / 1000).toFixed(1) + 'K';
-    } else {
-      return num;
-    }
-  }
 
   switch (financialStatement) {
 
@@ -70,105 +217,143 @@ export default function FinancialStatementsHeader() {
         fiscalReports = stock.FinancialStatements.IncomeStatement.quarterlyReports
       }
 
+      const metrics = [
+        {
+          realName: 'totalRevenue',
+          myName: 'totalRevenue',
+          label: 'Total Revenue',
+          rgb: 'rgb(68, 138, 255)',
+          income_expense: 'income'
+        },
+        {
+          realName: 'costofGoodsAndServicesSold',
+          myName: 'costOfGoodsAndServicesSold',
+          label: 'Cost of Goods and Services Sold',
+          marginLabel: 'Cost of Goods and Services Sold % of Revenue',
+          rgb: `rgb(231, 12, 12)`,
+          income_expense: 'expense'
+        },
+        //${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}
+        {
+          realName: 'grossProfit',
+          myName: 'grossProfit',
+          label: 'Gross Profit',
+          marginLabel: 'Gross Profit % of Revenue',
+          rgb: 'rgb(77, 208, 225)',
+          income_expense: 'income'
+        },
+        {
+          realName: 'operatingExpenses',
+          myName: 'operatingExpenses',
+          label: 'Operating Expenses',
+          marginLabel: 'Operating Expenses % of Revenue',
+          rgb: 'rgb(231, 12, 12)',
+          income_expense: 'expense'
+        },
+        {
+          realName: 'operatingIncome',
+          myName: 'operatingIncome',
+          label: 'Operating Income',
+          marginLabel: 'Operating Income % of Revenue',
+          rgb: 'rgb(179, 136, 255)',
+          income_expense: 'income'
+        },
+        {
+          realName: 'otherNonOperatingIncome',
+          myName: 'nonOperatingIncome',
+          label: 'Non Operating Income',
+          marginLabel: 'Non Operating Income % of Revenue',
+          rgb: 'rgb(231, 12, 12)',
+          income_expense: 'income'
+        },
+        {
+          realName: 'incomeBeforeTax',
+          myName: 'pretaxIncome',
+          label: 'Pretax Income',
+          marginLabel: 'Pretax % of Revenue',
+          rgb: 'rgb(245, 127, 23)',
+          income_expense: 'income'
+        },
+        {
+          realName: 'incomeTaxExpense',
+          myName: 'taxes',
+          label: 'Taxes',
+          marginLabel: 'Taxes % of Revenue',
+          rgb: 'rgb(231, 12, 12)',
+          income_expense: 'expense'
+        },
+        {
+          realName: 'netIncome',
+          myName: 'netIncome',
+          label: 'Net Income',
+          marginLabel: 'Net Income % of Revenue',
+          rgb: 'rgb(251, 192, 45)',
+          income_expense: 'income'
+        }
+      ]
 
-      if (financialStatementsToggled.toggleTotalRevenue) {
-        datasets.push(
-          {
-            label: "Total Revenue",
-            data: fiscalReports.map(data => data.totalRevenue).reverse(),
-            backgroundColor: 'rgb(0, 81, 255)',
-            barPercentage: .8,
-            borderRadius: 3,
+
+      // Margin
+      for (const index in metrics) {
+        const realName = metrics[index].realName
+        const myName = metrics[index].myName
+        const label = metrics[index].marginLabel
+        const rgb = metrics[index].rgb
+
+        if (financialStatementsToggled[`toggle${myName.charAt(0).toUpperCase() + myName.slice(1)}Margin`]) {
+          chartOptions.scales.y2.display = true
+          chartOptions.plugins.legend.labels.usePointStyle = true
+          chartOptions.plugins.legend.labels.pointStyle = 'line'
+          if (chartOptions.scales.y2.max < Math.max(...fiscalReports.map(data => (data[realName] / data.totalRevenue))) + .01) {
+            chartOptions.scales.y2.max = Math.max(...fiscalReports.map(data => (data[realName] / data.totalRevenue))) + .01
           }
-        )
+          if (chartOptions.scales.y2.min > Math.min(...fiscalReports.map(data => (data[realName] / data.totalRevenue))) - .01) {
+            chartOptions.scales.y2.min = Math.min(...fiscalReports.map(data => (data[realName] / data.totalRevenue))) - .01
+          }
+
+          datasets.push(
+            {
+              type: 'line',
+              label: label,
+              data: fiscalReports.map(data => (data[realName] / data.totalRevenue)).reverse(),
+              yAxisID: 'y2',
+              backgroundColor: rgb,
+              borderColor: rgb,
+              barPercentage: .8,
+              borderRadius: 3,
+            }
+          )
+        }
       }
-      if (financialStatementsToggled.toggleCostOfGoodsAndServicesSold) {
-        datasets.push(
-          {
-            label: "Gross Profit",
-            data: fiscalReports.map(data => data.costofGoodsAndServicesSold).reverse(),
-            backgroundColor: 'rgb(231, 12, 12)',
-            barPercentage: .8,
-            borderRadius: 3,
+
+      // Metric
+      for (const index in metrics) {
+        const realName = metrics[index].realName
+        const myName = metrics[index].myName
+        const label = metrics[index].label
+        const rgb = metrics[index].rgb
+        const income_expense = metrics[index].income_expense
+        let data = fiscalReports.map(data => data[realName]).reverse()
+
+        if (financialStatementsToggled[`toggle${myName.charAt(0).toUpperCase() + myName.slice(1)}`]) {
+          chartOptions.scales.y1.display = true
+
+          if (income_expense == 'expense') {
+            data = fiscalReports.map(data => 0 - data[realName]).reverse()
           }
-        )
-      }
-      if (financialStatementsToggled.toggleGrossProfit) {
-        datasets.push(
-          {
-            label: "Gross Profit",
-            data: fiscalReports.map(data => data.grossProfit).reverse(),
-            backgroundColor: 'rgb(30, 231, 12)',
-            barPercentage: .8,
-            borderRadius: 3,
-          }
-        )
-      }
-      if (financialStatementsToggled.toggleOperatingExpenses) {
-        datasets.push(
-          {
-            label: "Gross Profit",
-            data: fiscalReports.map(data => data.operatingExpenses).reverse(),
-            backgroundColor: 'rgb(231, 12, 12)',
-            barPercentage: .8,
-            borderRadius: 3,
-          }
-        )
-      }
-      if (financialStatementsToggled.toggleOperatingIncome) {
-        datasets.push(
-          {
-            label: "Gross Profit",
-            data: fiscalReports.map(data => data.operatingIncome).reverse(),
-            backgroundColor: 'rgb(231, 12, 12)',
-            barPercentage: .8,
-            borderRadius: 3,
-          }
-        )
-      }
-      if (financialStatementsToggled.toggleNonOperatingIncome) {
-        datasets.push(
-          {
-            label: "Gross Profit",
-            data: fiscalReports.map(data => data.otherNonOperatingIncome).reverse(),
-            backgroundColor: 'rgb(231, 12, 12)',
-            barPercentage: .8,
-            borderRadius: 3,
-          }
-        )
-      }
-      if (financialStatementsToggled.togglePretaxIncome) {
-        datasets.push(
-          {
-            label: "Gross Profit",
-            data: fiscalReports.map(data => data.incomeBeforeTax).reverse(),
-            backgroundColor: 'rgb(231, 12, 12)',
-            barPercentage: .8,
-            borderRadius: 3,
-          }
-        )
-      }
-      if (financialStatementsToggled.toggleTaxes) {
-        datasets.push(
-          {
-            label: "Gross Profit",
-            data: fiscalReports.map(data => data.incomeTaxExpense).reverse(),
-            backgroundColor: 'rgb(231, 12, 12)',
-            barPercentage: .8,
-            borderRadius: 3,
-          }
-        )
-      }
-      if (financialStatementsToggled.toggleNetIncome) {
-        datasets.push(
-          {
-            label: "Net Income",
-            data: fiscalReports.map(data => data.netIncome).reverse(),
-            backgroundColor: 'rgb(255, 255, 0)',
-            barPercentage: .8,
-            borderRadius: 3,
-          }
-        )
+
+          datasets.push(
+            {
+              type: 'bar',
+              label: label,
+              data: data,
+              yAxisID: 'y1',
+              backgroundColor: rgb,
+              barPercentage: .85,
+              borderRadius: 5,
+            }
+          )
+        }
       }
 
       break
@@ -182,10 +367,12 @@ export default function FinancialStatementsHeader() {
         fiscalReports = stock.FinancialStatements.BalanceSheet.quarterlyReports
       }
       if (financialStatementsToggled.toggleTotalAssets) {
+        chartOptions.scales.y1.display = true
         datasets.push(
           {
             label: "Assets",
             data: fiscalReports.map(data => data.totalAssets).reverse(),
+            yAxisID: 'y1',
             backgroundColor: 'rgb(0, 81, 255)',
             barPercentage: .8,
             borderRadius: 3,
@@ -193,10 +380,12 @@ export default function FinancialStatementsHeader() {
         )
       }
       if (financialStatementsToggled.toggleTotalLiabilities) {
+        chartOptions.scales.y1.display = true
         datasets.push(
           {
             label: "Liabilities",
             data: fiscalReports.map(data => data.totalLiabilities).reverse(),
+            yAxisID: 'y1',
             backgroundColor: 'rgb(3, 245, 164)',
             barPercentage: .8,
             borderRadius: 3,
@@ -204,10 +393,12 @@ export default function FinancialStatementsHeader() {
         )
       }
       if (financialStatementsToggled.toggleTotalEquity) {
+        chartOptions.scales.y1.display = true
         datasets.push(
           {
             label: "Equity",
             data: fiscalReports.map(data => data.totalShareholderEquity).reverse(),
+            yAxisID: 'y1',
             backgroundColor: 'rgb(255, 238, 0)',
             barPercentage: .8,
             borderRadius: 3,
@@ -215,18 +406,6 @@ export default function FinancialStatementsHeader() {
         )
       }
 
-      // datasets = [
-      //   {
-      //     label: "Assets",
-      //     data: fiscalReports.map(data => data.totalAssets).reverse(),
-      //     backgroundColor: 'blue'
-      //   },
-      //   {
-      //     label: "Liabilities",
-      //     data: fiscalReports.map(data => data.totalLiabilities).reverse(),
-      //     backgroundColor: 'rgb(63, 219, 24)'
-      //   }
-      // ]
       break;
 
     // Cashflow Statement
@@ -287,26 +466,28 @@ export default function FinancialStatementsHeader() {
       break;
   }
 
-
-
-
   if (isYearlyorQuarterly.isYearly) {
     fiscalPeriod = [...new Set(fiscalReports.map((report) => report.fiscalDateEnding.split('-')[0]))];
+    fiscalPeriod.shift()
     fiscalPeriod.reverse()
+
   } else {
-    fiscalPeriod = [...new Set(fiscalReports.map((report) => report.fiscalDateEnding.split('-')[0] + '-' + report.fiscalDateEnding.split('-')[1]))].reverse().slice(12);
+    fiscalPeriod = [...new Set(fiscalReports.map((report) => report.fiscalDateEnding.split('-')[0] + '-' + report.fiscalDateEnding.split('-')[1]))].slice(0, 8).reverse();
     for (let i = 0; i < fiscalPeriod.length; i++) {
-      const [year, month] = fiscalPeriod[i].split('-');
+
+      let [year, month] = fiscalPeriod[i].split('-');
       let quarter = '';
-      if (month === '03') {
+
+      if (month === '01' || month === '02' || month === '03') {
         quarter = 'Q1';
-      } else if (month === '06') {
+      } else if (month === '04' || month === '05' || month === '06') {
         quarter = 'Q2';
-      } else if (month === '09') {
+      } else if (month === '07' || month === '08' || month === '09') {
         quarter = 'Q3';
-      } else if (month === '12') {
+      } else {
         quarter = 'Q4';
       }
+
       fiscalPeriod[i] = `${quarter} ${year}`;
     }
   }
@@ -320,7 +501,7 @@ export default function FinancialStatementsHeader() {
   useEffect(() => {
     setChartData({
       labels: fiscalPeriod,
-      datasets: datasets.map((dataset) => dataset)
+      datasets: datasets.map((dataset) => dataset),
     })
   }, [financialStatementsToggled, isYearlyorQuarterly])
 
@@ -337,8 +518,8 @@ export default function FinancialStatementsHeader() {
     <>
 
       <div className="chart-div">
-        <div className="chart">
-          <BarChart data={chartData} />
+        <div style={isQuarterly ? { width: '70%' } : {}} className="chart">
+          <BarChart data={chartData} options={chartOptions} />
         </div>
       </div>
 
@@ -349,86 +530,64 @@ export default function FinancialStatementsHeader() {
 
           <div className="financial-statements-segments">
 
-            {whichFinancialStatement === 'incomeStatement' ?
-              <div className="financial-statements-segment-choosed">
-                <div className="financial-statements-segment-link-choosed">Income Statement</div>
-              </div>
-              :
-              <div onClick={() => {
-                setWhichFinancialStatement('incomeStatement')
-              }} className="financial-statements-segment">
-                <div className="financial-statements-segment-link">Income Statement</div>
-              </div>
-            }
-            {whichFinancialStatement === 'balanceSheet' ?
-              <div className="financial-statements-segment-choosed">
-                <div className="financial-statements-segment-link-choosed">Balance Sheet</div>
-              </div>
-              :
-              <div onClick={() => {
-                setWhichFinancialStatement('balanceSheet')
-              }} className="financial-statements-segment">
-                <div className="financial-statements-segment-link">Balance Sheet</div>
-              </div>
-            }
-            {whichFinancialStatement === 'cashflowStatement' ?
-              <div className="financial-statements-segment-choosed">
-                <div className="financial-statements-segment-link-choosed">Cashflow Statement</div>
-              </div>
-              :
-              <div onClick={() => {
-                setWhichFinancialStatement('cashflowStatement')
-              }} className="financial-statements-segment">
-                <div className="financial-statements-segment-link">Cashflow Statement</div>
-              </div>
-            }
+            <Button
+              isChoosed={isChoosedIncomeStatement}
+              segmentName={'Income Statement'}
+              func={() => setWhichFinancialStatement('incomeStatement')}
+            />
+
+            <Button
+              isChoosed={isChoosedBalanceSheet}
+              segmentName={'Balance Sheet'}
+              func={() => setWhichFinancialStatement('balanceSheet')}
+            />
+
+            <Button
+              isChoosed={isChoosedCashflowStatement}
+              segmentName={'Cashflow Statement'}
+              func={() => setWhichFinancialStatement('cashflowStatement')}
+            />
 
           </div>
 
+          <div className="all-YoY-margin-segments">
 
+            <Button
+              isChoosed={isChoosedAllYoY}
+              segmentName={'% YoY'}
+              func={() => setAllYoY(allYoY ? false : true)}
+            />
+
+            {financialStatement != 'balanceSheet' ?
+              <Button
+                isChoosed={isChoosedAllMargin}
+                segmentName={'% of Revenue '}
+                func={() => setAllMargin(allMargin ? false : true)}
+              />
+              :
+              ''
+            }
+
+
+
+          </div>
 
         </div>
         <div className="yearly-quarterly-nav">
 
           <div className="yearly-quarterly-segments">
-            {isYearly ?
-              <div onClick={() => {
-                if (!isYearly) {
-                  setIsYearly(true)
-                  setIsQuarterly(false)
-                }
-              }} className="yearly-quarterly-segment-choosed">
-                <div className="yearly-quarterly-segment-link-choosed">Yearly</div>
-              </div>
-              :
-              <div onClick={() => {
-                if (!isYearly) {
-                  setIsYearly(true)
-                  setIsQuarterly(false)
-                }
-              }} className="yearly-quarterly-segment">
-                <div className="yearly-quarterly-segment-link">Yearly</div>
-              </div>
-            }
-            {isQuarterly ?
-              <div onClick={() => {
-                if (!isQuarterly) {
-                  setIsQuarterly(true)
-                  setIsYearly(false)
-                }
-              }} className="yearly-quarterly-segment-choosed">
-                <div className="yearly-quarterly-segment-link-choosed">Quarterly</div>
-              </div>
-              :
-              <div onClick={() => {
-                if (!isQuarterly) {
-                  setIsQuarterly(true)
-                  setIsYearly(false)
-                }
-              }} className="yearly-quarterly-segment">
-                <div className="yearly-quarterly-segment-link">Quarterly</div>
-              </div>
-            }
+            <Button
+              isChoosed={isChoosedYearly}
+              segmentName={'Yearly'}
+              func={() => { setIsYearly(isYearly ? false : true); setIsQuarterly(isYearly ? true : false) }}
+            />
+
+            <Button
+              isChoosed={isChoosedQuarterly}
+              segmentName={'Quarterly'}
+              func={() => { setIsQuarterly(isQuarterly ? false : true); setIsYearly(isQuarterly ? true : false) }}
+            />
+
           </div>
         </div>
 

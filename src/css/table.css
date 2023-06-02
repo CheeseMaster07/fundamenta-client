@@ -5,7 +5,6 @@
 
 }
 
-
 .table {
   border-collapse: collapse;
   margin: 3rem 0;
@@ -24,51 +23,127 @@
   table-layout: fixed;
 }
 
+.subrow-button {
+  height: 25px;
+  font-size: 20px;
+  padding: 0 3px 0 7px;
+  border-radius: 2px;
+  margin-right: 4px;
+
+}
+
+.subrow-button:hover {
+  background-color: rgba(105, 104, 104, 0.274);
+}
 
 .table thead tr,
 .table-quarterly thead tr {
-  background-color: rgb(17, 17, 17);
+  background-color: rgb(10, 10, 10);
   text-align: left;
   font-weight: 600;
 }
 
 .table tbody tr,
 .table-quarterly tbody tr {
-  background-color: rgb(22, 22, 22);
+  background-color: rgb(10, 10, 10);
   cursor: pointer;
+}
+
+#real-row-expense {
+  background-color: rgba(10, 10, 10);
+  padding: 8px 16px;
+  font-size: 23px;
+  box-sizing: border-box;
+  height: 45px;
+}
+
+#real-row-expense-hover {
+  background-color: rgba(36, 36, 36);
+  padding: 8px 16px;
+  font-size: 23px;
+  box-sizing: border-box;
+  height: 45px;
 
 }
 
 #YoY-row {
-  padding: 5px 16px;
-  font-size: 21px;
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
   font-style: italic;
+  background-color:rgb(10, 10, 10);
+  border: 0;
+}
+
+#YoY-row-hover {
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;
+  background-color:rgb(34, 34, 34);
+  border: 0
+
+}
+
+#margin-row {
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;
+  background-color:rgb(10, 10, 10);
+  border: 0;
+
+}
+
+#margin-row-hover {
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;
+  background-color:rgb(34, 34, 34);
+  border: 0
+  
+}
+
+.margin-color {
+  color: rgb(255, 255, 154);
+}
+
+.positive {
+  color: green;
+}
+
+.negative {
+  color: red;
 }
 
 .table tbody tr:hover,
 .table-quarterly tbody tr:hover {
   background-color: rgb(36, 36, 36);
-  cursor: pointer;
 }
 
 .table th,
 .table-quarterly th,
 .table td,
 .table-quarterly td {
-  padding: 8px 16px;
-  border-bottom: 1px solid rgb(51, 51, 51);
+  padding: 14px 16px;
+  border-top: 1px solid rgb(51, 51, 51);
   text-align: left;
+  box-sizing: border-box;
+  height: 59px;
 }
 
 .row-name-dropdown {
   display: flex;
+  align-items: center;
 }
 
 .row-dropdown {
   border: 1px black solid;
   position: relative;
   border-radius: 3px;
-  padding: 0 8px;
+  padding: 0 6px;
+  font-size: 21px;
   margin-right: 12px;
   background-color: rgba(128, 128, 128, 0.199);
 }
@@ -108,6 +183,14 @@
   text-align: center;
 }
 
+.color-bar {
+  background-color: red;
+  width: 8px;
+  height: 58px;
+  margin-left: -16px;
+  margin-right: 16px;
+}
+
 #toggled-YoY {
   background-color: rgba(255, 255, 255, 0.2);
 }
@@ -124,42 +207,183 @@
   background-color: rgba(255, 255, 0, 0.377);
 }
 
-#toggled-totalRevenue {
-  background-color: rgba(0, 81, 255, 0.377);
+
+#toggled-totalRevenueYoY {
+  padding: 5px 16px;
+  height: 36px;
+  font-size: 21px;
+  font-style: italic;
+  background-color:rgba(68, 137, 255, 0.603);
+  border: 0;
 }
 
-#toggled-costofGoodsAndServicesSold {
+
+#toggled-costofGoodsAndServicesSold-expense {
   background-color: rgba(231, 12, 12, 0.486);
+  padding: 8px 16px;
+  height: 45px;
+  font-size: 23px;
+}
+#toggled-costofGoodsAndServicesSoldYoY {
+  background-color: rgba(231, 12, 12, 0.486);
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;
+  border: 0;
+}
+#toggled-costofGoodsAndServicesSoldMargin {
+  background-color: rgba(231, 12, 12, 0.486);
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;
+  border: 0;
 }
 
-#toggled-toggleGrossProfit {
+
+#toggled-toggleGrossProfitYoY {
+  background-color: rgba(77, 208, 225, 0.596);
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;
+  border: 0;
+}
+#toggled-toggleGrossProfitMargin {
   background-color: rgba(30, 231, 12, 0.486);
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;
+  border: 0;
 }
 
-#toggled-toggleOperatingExpenses {
+
+#toggled-toggleOperatingExpenses-expense {
   background-color: rgba(231, 12, 12, 0.486);
+  padding: 8px 16px;
+  height: 45px;
+  font-size: 23px;
 }
-
-#toggled-operatingIncome {
+#toggled-toggleOperatingExpensesYoY {
   background-color: rgba(231, 12, 12, 0.486);
-}
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;
+  border: 0;
 
-#toggled-otherNonOperatingIncome {
+}
+#toggled-toggleOperatingExpensesMargin {
   background-color: rgba(231, 12, 12, 0.486);
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;;
+  border: 0;
+
 }
 
-#toggled-incomeBeforeTax {
+
+#toggled-operatingIncomeYoY {
+  background-color: rgba(179, 136, 255, 0.55);
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;
+  border: 0;
+}
+#toggled-operatingIncomeMargin {
+  background-color: rgba(179, 136, 255, 0.55);
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;
+  border: 0;
+}
+
+#toggled-otherNonOperatingIncome-expense {
   background-color: rgba(231, 12, 12, 0.486);
+  padding: 8px 16px;
+  height: 45px;
+  font-size: 23px;
 }
-
-#toggled-taxes {
+#toggled-otherNonOperatingIncomeYoY {
   background-color: rgba(231, 12, 12, 0.486);
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;
+  border: 0;
+}
+#toggled-otherNonOperatingIncomeMargin {
+  background-color: rgba(231, 12, 12, 0.486);
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;
+  border: 0;
 }
 
-#toggled-netIncome {
-  background-color: rgba(255, 255, 0, 0.377);
+
+#toggled-incomeBeforeTaxYoY {
+  background-color: rgba(245, 127, 23, 0.7);
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;
+  border: 0;
+}
+#toggled-incomeBeforeTaxMargin {
+  background-color: rgba(245, 127, 23, 0.7);
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;
+  border: 0;
 }
 
+#toggled-taxes-expense {
+  background-color: rgba(231, 12, 12, 0.486);
+  padding: 8px 16px;
+  height: 45px;
+  font-size: 23px;
+}
+#toggled-taxesYoY {
+  background-color: rgba(231, 12, 12, 0.486);
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;
+  border: 0;
+}
+#toggled-taxesMargin {
+  background-color: rgba(231, 12, 12, 0.486);
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;
+  border: 0;
+}
+
+
+#toggled-netIncomeYoY {
+  background-color: rgba(251, 193, 45, 0.603);
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;
+  border: 0;
+}
+#toggled-netIncomeMargin {
+  background-color: rgba(251, 193, 45, 0.603);
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;
+  border: 0;
+}
 
 
 #toggled-totalAssets {

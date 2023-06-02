@@ -6,7 +6,9 @@
 }
 
 .chart {
-  width: 40%;
+  width: 55%;
+  height: 25rem;
+  margin-top: 10px;
   justify-content: center;
   align-items: center;
   display: flex;
