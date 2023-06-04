@@ -27,22 +27,23 @@
   display: flex;
   align-items: left;
 
-  margin-left: 30rem; 
+  margin-left: 30rem;
 }
 
 .all-YoY-margin-segments {
   display: flex;
   align-items: left;
   margin-top: .5rem;
-  margin-left: 30rem; 
+  margin-left: 30rem;
 }
 
-.segment, .segment-choosed {
+.segment,
+.segment-choosed {
   border: 1px solid black;
   background-color: rgb(78, 78, 78);
   padding: .4rem .6rem;
   margin-left: 1rem;
-  border-radius: 3px;
+  border-radius: 4px;
   cursor: pointer;
 
 }
@@ -69,7 +70,8 @@
 
 .segment-link-choosed {
   color: rgb(37, 37, 37);
-  text-decoration: none;;
+  text-decoration: none;
+  ;
   font-weight: 600;
 }
 
@@ -97,10 +99,11 @@
   display: flex;
   align-items: left;
 
-  margin-right: 40rem; 
+  margin-right: 40rem;
 }
 
-.yearly-quarterly-segment, .yearly-quarterly-segment-choosed {
+.yearly-quarterly-segment,
+.yearly-quarterly-segment-choosed {
   border: 1px solid black;
   background-color: rgb(78, 78, 78);
   padding: .4rem .6rem;
@@ -132,8 +135,7 @@
 
 .yearly-quarterly-segment-link-choosed {
   color: rgb(37, 37, 37);
-  text-decoration: none;;
+  text-decoration: none;
+  ;
   font-weight: 500;
 }
-
-

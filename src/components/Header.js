@@ -23,12 +23,13 @@ export default function Header() {
   const [searchedStocks, setSearchedStocks] = useState([])
   const stocksRef = useRef()
 
+  console.log(searchedStocks)
 
   function showStocks(e) {
     setInputtedStock(e.target.value)
     const searchQuery = stocksRef.current.value
     if (searchQuery != '') {
-      setSearchedStocks(stocks.filter(stock => stock.symbol.startsWith(searchQuery)).slice(0, 10))
+      setSearchedStocks(stocks.filter(stock => stock.toLowerCase().startsWith(searchQuery)).slice(0, 10))
     } else {
       setSearchedStocks([])
     }
@@ -37,35 +38,45 @@ export default function Header() {
 
 
   return (
-    <nav className="nav">
-      <div className="logo">
-        <h1 className="title"><a className="title-link" href="/">Fundamenta</a></h1>
-      </div>
-      <div className="icons">
-        <ul>
-          <li className="search-stocks">
+    <div className="header">
+      <nav className="nav">
+        <div className="logo">
+          <h1 className="title"><a className="title-link" href="/">Fundamenta</a></h1>
+        </div>
+        <div className="icons">
+          <ul>
+            <li className="search-stocks">
 
-            <div className="dropdown">
-              <form>
-                <input className="searchbar" ref={stocksRef} onChange={showStocks} type="text" placeholder='Search Stocks' value={inputtedStock} />
-              </form>
+              <div className="dropdown">
+                <form>
+                  <input className="searchbar" ref={stocksRef} onChange={showStocks} type="text" placeholder='Search Stocks' value={inputtedStock} />
+                </form>
 
-              <div className="dropdown-menu">
-                {
-                  searchedStocks.map(stock => {
-                    return <div onClick={() => {
-                      navigate(`/stocks/${stock.symbol}`)
-                      window.location.reload();
-                    }
-                    } className="dropdown-row" >{stock.symbol}</div>
-                  })
-                }
+                <div className="dropdown-menu">
+                  {
+                    searchedStocks.map(stock => {
+                      return <div onClick={() => {
+                        navigate(`/stocks/${stock.toLowerCase()}`)
+                        window.location.reload();
+                      }
+                      } className="dropdown-row">{stock.toLowerCase()}</div>
+                    })
+                  }
+                </div>
               </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </nav>
+            </li>
+            <li>
+              <div onClick={() => {
+                navigate(`/stock-cards`)
+                window.location.reload();
+              }
+              } className='stock-cards'>Stock Cards</div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+    </div>
 
 
   )

@@ -102,6 +102,7 @@ export default function IncomeStatement_component({ fiscalPeriods, fiscalReports
 
 
             {/* Total Revenue*/}
+
             <TableRow
               metric={'totalRevenue'}
               metricName={'Total Revenue'}
@@ -118,27 +119,6 @@ export default function IncomeStatement_component({ fiscalPeriods, fiscalReports
               setExtras={setTotalRevenueExtras}
               toggledMetric={toggledMetrics.toggleTotalRevenue}
               setToggledMetric={setToggledMetrics.setToggleTotalRevenue} />
-
-            {totalRevenueExtras.YoY ?
-              <TableRow
-                metric={'totalRevenue'}
-                metricName={'Total Revenue'}
-                metricValue={'totalRevenue'}
-                toggledID={'toggled-totalRevenueYoY'}
-                typeOfRow={'YoY-row'}
-                fiscalPeriods={fiscalPeriods}
-                dropdown={financialStatementsDropdown.totalRevenueDropdown}
-                setDropdown={(value) => dispatch(getFinancialStatementsDropdown({ totalRevenueDropdown: value }))}
-                reports={fiscalReports}
-                extras={totalRevenueExtras}
-                setExtras={setTotalRevenueExtras}
-                toggledMetric={toggledMetrics.toggleTotalRevenueYoY}
-                setToggledMetric={setToggledMetrics.setToggleTotalRevenueYoY} />
-
-              :
-              ''
-            }
-
 
 
             {/* Cost of Goods and Services sold */}
@@ -161,25 +141,6 @@ export default function IncomeStatement_component({ fiscalPeriods, fiscalReports
               toggleSubrows={toggledMetrics.toggleCostOfGoodsAndServicesSoldSubrows}
               setToggleSubrows={setToggledMetrics.setToggleCostOfGoodsAndServicesSoldSubrows} />
 
-            {costOfGoodsAndServicesSoldExtras.YoY ?
-              <TableRow
-                metric={'costOfGoodsAndServicesSold'}
-                metricName={'Cost of Goods and Services Sold'}
-                metricValue={'costofGoodsAndServicesSold'}
-                toggledID={'toggled-costofGoodsAndServicesSoldYoY'}
-                typeOfRow={'YoY-row'}
-                fiscalPeriods={fiscalPeriods}
-                dropdown={financialStatementsDropdown.costOfGoodsAndServicesSoldDropdown}
-                setDropdown={(value) => dispatch(getFinancialStatementsDropdown({ costOfGoodsAndServicesSoldDropdown: value }))}
-                reports={fiscalReports}
-                extras={costOfGoodsAndServicesSoldExtras}
-                setExtras={setCostOfGoodsAndServicesSoldExtras}
-                toggledMetric={toggledMetrics.toggleCostOfGoodsAndServicesSoldYoY}
-                setToggledMetric={setToggledMetrics.setToggleCostOfGoodsAndServicesSoldYoY} />
-
-              :
-              ''
-            }
 
             {costOfGoodsAndServicesSoldExtras.margin ?
               <TableRow
@@ -245,25 +206,6 @@ export default function IncomeStatement_component({ fiscalPeriods, fiscalReports
               toggledMetric={toggledMetrics.toggleGrossProfit}
               setToggledMetric={setToggledMetrics.setToggleGrossProfit} />
 
-            {grossProfitExtras.YoY ?
-              <TableRow
-                metric={'grossProfit'}
-                metricName={'Gross Profit'}
-                metricValue={'grossProfit'}
-                toggledID={'toggled-toggleGrossProfitYoY'}
-                typeOfRow={'YoY-row'}
-                fiscalPeriods={fiscalPeriods}
-                dropdown={financialStatementsDropdown.grossProfitDropdown}
-                setDropdown={(value) => dispatch(getFinancialStatementsDropdown({ grossProfitDropdown: value }))}
-                reports={fiscalReports}
-                extras={grossProfitExtras}
-                setExtras={setGrossProfitExtras}
-                toggledMetric={toggledMetrics.toggleGrossProfitYoY}
-                setToggledMetric={setToggledMetrics.setToggleGrossProfitYoY} />
-
-              :
-              ''
-            }
 
             {grossProfitExtras.margin ?
               <TableRow
@@ -305,25 +247,6 @@ export default function IncomeStatement_component({ fiscalPeriods, fiscalReports
               toggledMetric={toggledMetrics.toggleOperatingExpenses}
               setToggledMetric={setToggledMetrics.setToggleOperatingExpenses} />
 
-            {operatingExpensesExtras.YoY ?
-              <TableRow
-                metric={'operatingExpenses'}
-                metricName={'Operating Expenses'}
-                metricValue={'operatingExpenses'}
-                toggledID={'toggled-toggleOperatingExpensesYoY'}
-                typeOfRow={'YoY-row'}
-                fiscalPeriods={fiscalPeriods}
-                dropdown={financialStatementsDropdown.operatingExpensesDropdown}
-                setDropdown={(value) => dispatch(getFinancialStatementsDropdown({ operatingExpensesDropdown: value }))}
-                reports={fiscalReports}
-                extras={operatingExpensesExtras}
-                setExtras={setOperatingExpensesExtras}
-                toggledMetric={toggledMetrics.toggleOperatingExpensesYoY}
-                setToggledMetric={setToggledMetrics.setToggleOperatingExpensesYoY} />
-
-              :
-              ''
-            }
 
             {operatingExpensesExtras.margin ?
               <TableRow
@@ -364,25 +287,6 @@ export default function IncomeStatement_component({ fiscalPeriods, fiscalReports
               toggledMetric={toggledMetrics.toggleOperatingIncome}
               setToggledMetric={setToggledMetrics.setToggleOperatingIncome} />
 
-            {operatingIncomeExtras.YoY ?
-              <TableRow
-                metric={'operatingIncome'}
-                metricName={'Operating Income'}
-                metricValue={'operatingIncome'}
-                toggledID={'toggled-operatingIncomeYoY'}
-                typeOfRow={'YoY-row'}
-                fiscalPeriods={fiscalPeriods}
-                dropdown={financialStatementsDropdown.operatingIncomeDropdown}
-                setDropdown={(value) => dispatch(getFinancialStatementsDropdown({ operatingIncomeDropdown: value }))}
-                reports={fiscalReports}
-                extras={operatingIncomeExtras}
-                setExtras={setOperatingIncomeExtras}
-                toggledMetric={toggledMetrics.toggleOperatingIncomeYoY}
-                setToggledMetric={setToggledMetrics.setToggleOperatingIncomeYoY} />
-
-              :
-              ''
-            }
 
             {operatingIncomeExtras.margin ?
               <TableRow
@@ -423,25 +327,6 @@ export default function IncomeStatement_component({ fiscalPeriods, fiscalReports
               toggledMetric={toggledMetrics.toggleNonOperatingIncome}
               setToggledMetric={setToggledMetrics.setToggleNonOperatingIncome} />
 
-            {nonOperatingIncomeExtras.YoY ?
-              <TableRow
-                metric={'nonOperatingIncome'}
-                metricName={'Non Operating Income'}
-                metricValue={'otherNonOperatingIncome'}
-                toggledID={'toggled-otherNonOperatingIncomeYoY'}
-                typeOfRow={'YoY-row'}
-                fiscalPeriods={fiscalPeriods}
-                dropdown={financialStatementsDropdown.nonOperatingIncomeDropdown}
-                setDropdown={(value) => dispatch(getFinancialStatementsDropdown({ nonOperatingIncomeDropdown: value }))}
-                reports={fiscalReports}
-                extras={nonOperatingIncomeExtras}
-                setExtras={setNonOperatingIncomeExtras}
-                toggledMetric={toggledMetrics.toggleNonOperatingIncomeYoY}
-                setToggledMetric={setToggledMetrics.setToggleNonOperatingIncomeYoY} />
-
-              :
-              ''
-            }
 
             {nonOperatingIncomeExtras.margin ?
               <TableRow
@@ -482,25 +367,6 @@ export default function IncomeStatement_component({ fiscalPeriods, fiscalReports
               toggledMetric={toggledMetrics.togglePretaxIncome}
               setToggledMetric={setToggledMetrics.setTogglePretaxIncome} />
 
-            {pretaxIncomeExtras.YoY ?
-              <TableRow
-                metric={'pretaxIncome'}
-                metricName={'Pretax Income'}
-                metricValue={'incomeBeforeTax'}
-                toggledID={'toggled-incomeBeforeTaxYoY'}
-                typeOfRow={'YoY-row'}
-                fiscalPeriods={fiscalPeriods}
-                dropdown={financialStatementsDropdown.pretaxIncomeDropdown}
-                setDropdown={(value) => dispatch(getFinancialStatementsDropdown({ pretaxIncomeDropdown: value }))}
-                reports={fiscalReports}
-                extras={pretaxIncomeExtras}
-                setExtras={setPretaxIncomeExtras}
-                toggledMetric={toggledMetrics.togglePretaxIncomeYoY}
-                setToggledMetric={setToggledMetrics.setTogglePretaxIncomeYoY} />
-
-              :
-              ''
-            }
 
             {pretaxIncomeExtras.margin ?
               <TableRow
@@ -539,27 +405,6 @@ export default function IncomeStatement_component({ fiscalPeriods, fiscalReports
               setExtras={setTaxesExtras}
               toggledMetric={toggledMetrics.toggleTaxes}
               setToggledMetric={setToggledMetrics.setToggleTaxes} />
-
-            {taxesExtras.YoY ?
-              <TableRow
-                metric={'taxes'}
-                metricName={'Taxes'}
-                metricValue={'incomeTaxExpense'}
-                toggledID={'toggled-taxesYoY'}
-                typeOfRow={'YoY-row'}
-                fiscalPeriods={fiscalPeriods}
-                dropdown={financialStatementsDropdown.taxesDropdown}
-                setDropdown={(value) => dispatch(getFinancialStatementsDropdown({ taxesDropdown: value }))}
-                reports={fiscalReports}
-                extras={taxesExtras}
-                setExtras={setTaxesExtras}
-                toggledMetric={toggledMetrics.toggleTaxesYoY}
-                setToggledMetric={setToggledMetrics.setToggleTaxesYoY} />
-
-
-              :
-              ''
-            }
 
             {taxesExtras.margin ?
               <TableRow
@@ -601,25 +446,6 @@ export default function IncomeStatement_component({ fiscalPeriods, fiscalReports
               toggledMetric={toggledMetrics.toggleNetIncome}
               setToggledMetric={setToggledMetrics.setToggleNetIncome} />
 
-            {netIncomeExtras.YoY ?
-              <TableRow
-                metric={'netIncome'}
-                metricName={'Net Income'}
-                metricValue={'netIncome'}
-                toggledID={'toggled-netIncomeYoY'}
-                typeOfRow={'YoY-row'}
-                fiscalPeriods={fiscalPeriods}
-                dropdown={financialStatementsDropdown.netIncomeDropdown}
-                setDropdown={(value) => dispatch(getFinancialStatementsDropdown({ netIncomeDropdown: value }))}
-                reports={fiscalReports}
-                extras={netIncomeExtras}
-                setExtras={setNetIncomeExtras}
-                toggledMetric={toggledMetrics.toggleNetIncomeYoY}
-                setToggledMetric={setToggledMetrics.setToggleNetIncomeYoY} />
-
-              :
-              ''
-            }
 
             {netIncomeExtras.margin ?
               <TableRow
@@ -640,6 +466,7 @@ export default function IncomeStatement_component({ fiscalPeriods, fiscalReports
               :
               ''
             }
+
           </tbody>
         </table>
       </div>

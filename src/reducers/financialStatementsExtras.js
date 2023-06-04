@@ -8,6 +8,10 @@ const initialState = {
   pretaxIncomeExtras: { YoY: false, margin: false },
   taxesExtras: { YoY: false, margin: false },
   netIncomeExtras: { YoY: false, margin: false },
+
+  totalAssetsExtras: { YoY: false, margin: false },
+  totalLiabilitiesExtras: { YoY: false, margin: false },
+  totalEquityExtras: { YoY: false, margin: false },
 };
 
 export default function financialStatementsExtrasReducer(state = initialState, action) {

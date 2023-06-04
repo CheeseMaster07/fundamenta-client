@@ -24,7 +24,7 @@ export default function RowDropdown({ metric, extras, setExtras }) {
         }
       }}>% Year over Year</div>
 
-      {metric != 'totalRevenue' ?
+      {metric != 'totalRevenue' && metric != 'totalAssets' && metric != 'totalLiabilities' && metric != 'totalEquity' ?
         <div id={extras.margin ? 'toggled-margin' : ''} className="row-dropdown-row" onClick={(event) => {
           event.stopPropagation();
           if (!extras.margin) {

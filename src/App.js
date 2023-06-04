@@ -16,6 +16,7 @@ import BalanceSheet from './components/StockPage/FinancialStatements/BalanceShee
 import CashflowStatement from './components/StockPage/FinancialStatements/CashflowStatement/CashflowStatement';
 import StockPageHeader from './components/StockPage/StockPageHeader';
 import FinancialStatementsHeader from './components/StockPage/FinancialStatements/FinancialStatementsHeader'
+import StockCards from './components/StockCards/StockCards'
 
 import './css/general.css'
 
@@ -43,6 +44,8 @@ const App = () => {
           <Route path="overview" element={< Overview />}></Route>
           <Route path="overview" element={< Overview />}></Route>
         </Route>
+        <Route path="/stock-cards" element={< StockCards />} />
+
       </Routes>
     </>
 

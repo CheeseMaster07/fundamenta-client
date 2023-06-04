@@ -1,7 +1,11 @@
 .stock-nav {
   justify-content: space-between;
   align-items: center;
-
+  position: fixed;
+  width: 100%;
+  background-color: rgb(10, 10, 10);
+  margin-top: -10px;
+  z-index: 2;
 }
 
 .stock-title {
@@ -21,11 +25,12 @@
   padding: 0 57rem;
 }
 
-.stock-segment, .stock-segment-choosed {
+.stock-segment,
+.stock-segment-choosed {
   border: 1px solid black;
   background-color: rgb(78, 78, 78);
   padding: .4rem .6rem;
-  border-radius: 3px;
+  border-radius: 4px;
 }
 
 .stock-segment-choosed {
@@ -39,20 +44,22 @@
 
 .stock-segment-link {
   color: rgb(226, 226, 226);
-text-decoration: none;
-font-weight: 500;
+  text-decoration: none;
+  font-weight: 500;
   display: inline-block;
   position: relative;
-  z-index: 1;
+  z-index: 0;
   padding: 9px;
   margin: -9px;
 }
 
 .stock-segment-link-choosed {
   color: rgb(37, 37, 37);
-  text-decoration: none;;
+  text-decoration: none;
+  ;
   font-weight: 600;
 }
+
 /* 
 } */
 

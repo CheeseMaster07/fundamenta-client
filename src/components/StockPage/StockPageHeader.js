@@ -24,7 +24,7 @@ export default function StockPageHeader() {
 
 
   useEffect(() => {
-    dispatch(getStockData(id))
+    dispatch(getStockData(id, 'FETCH_ALL'))
 
   }, [dispatch])
 

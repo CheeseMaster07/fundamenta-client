@@ -1,14 +1,15 @@
 import * as api from '../api'
 
 
-export const getStockData = (id) => async (dispatch) => {
+export const getStockData = (id, fetch) => async (dispatch) => {
 
   try {
     console.time('Time')
-    const { data } = await api.fetchStockData(id)
+    const { data } = await api.fetchStockData(id, 'FETCH_ALL')
     console.timeEnd('Time');
 
-    dispatch({ type: 'FETCH_ALL', payload: data });
+    dispatch({ type: fetch, payload: data });
+    dispatch({ type: fetch, payload: data });
   } catch (error) {
     console.log(error.message)
   }

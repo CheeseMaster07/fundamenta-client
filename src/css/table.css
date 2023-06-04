@@ -64,34 +64,27 @@
   box-sizing: border-box;
   height: 45px;
 
+
 }
 
 #YoY-row {
-  padding: 3px 16px;
-  height: 32px;
+  height: 25px;
   font-size: 19px;
   font-style: italic;
-  background-color:rgb(10, 10, 10);
   border: 0;
-}
-
-#YoY-row-hover {
-  padding: 3px 16px;
-  height: 32px;
-  font-size: 19px;
-  font-style: italic;
-  background-color:rgb(34, 34, 34);
-  border: 0
-
+  position: relative;
+  top: 5px;
+  text-align: left;
 }
 
 #margin-row {
   padding: 3px 16px;
-  height: 32px;
+  height: 25px;
   font-size: 19px;
   font-style: italic;
-  background-color:rgb(10, 10, 10);
+  background-color: rgb(10, 10, 10);
   border: 0;
+
 
 }
 
@@ -100,9 +93,8 @@
   height: 32px;
   font-size: 19px;
   font-style: italic;
-  background-color:rgb(34, 34, 34);
+  background-color: rgb(34, 34, 34);
   border: 0
-  
 }
 
 .margin-color {
@@ -133,10 +125,6 @@
   height: 59px;
 }
 
-.row-name-dropdown {
-  display: flex;
-  align-items: center;
-}
 
 .row-dropdown {
   border: 1px black solid;
@@ -186,17 +174,17 @@
 .color-bar {
   background-color: red;
   width: 8px;
-  height: 58px;
   margin-left: -16px;
   margin-right: 16px;
 }
 
-#toggled-YoY {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
 #toggled-margin {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(40, 40, 40);
+  padding: 3px 16px;
+  height: 25px;
+  font-size: 19px;
+  font-style: italic;
+  border: 0;
 }
 
 #toggled-grossMargin {
@@ -208,15 +196,6 @@
 }
 
 
-#toggled-totalRevenueYoY {
-  padding: 5px 16px;
-  height: 36px;
-  font-size: 21px;
-  font-style: italic;
-  background-color:rgba(68, 137, 255, 0.603);
-  border: 0;
-}
-
 
 #toggled-costofGoodsAndServicesSold-expense {
   background-color: rgba(231, 12, 12, 0.486);
@@ -224,6 +203,7 @@
   height: 45px;
   font-size: 23px;
 }
+
 #toggled-costofGoodsAndServicesSoldYoY {
   background-color: rgba(231, 12, 12, 0.486);
   padding: 3px 16px;
@@ -232,6 +212,7 @@
   font-style: italic;
   border: 0;
 }
+
 #toggled-costofGoodsAndServicesSoldMargin {
   background-color: rgba(231, 12, 12, 0.486);
   padding: 3px 16px;
@@ -250,6 +231,7 @@
   font-style: italic;
   border: 0;
 }
+
 #toggled-toggleGrossProfitMargin {
   background-color: rgba(30, 231, 12, 0.486);
   padding: 3px 16px;
@@ -266,6 +248,7 @@
   height: 45px;
   font-size: 23px;
 }
+
 #toggled-toggleOperatingExpensesYoY {
   background-color: rgba(231, 12, 12, 0.486);
   padding: 3px 16px;
@@ -275,12 +258,14 @@
   border: 0;
 
 }
+
 #toggled-toggleOperatingExpensesMargin {
   background-color: rgba(231, 12, 12, 0.486);
   padding: 3px 16px;
   height: 32px;
   font-size: 19px;
-  font-style: italic;;
+  font-style: italic;
+  ;
   border: 0;
 
 }
@@ -294,6 +279,7 @@
   font-style: italic;
   border: 0;
 }
+
 #toggled-operatingIncomeMargin {
   background-color: rgba(179, 136, 255, 0.55);
   padding: 3px 16px;
@@ -309,6 +295,7 @@
   height: 45px;
   font-size: 23px;
 }
+
 #toggled-otherNonOperatingIncomeYoY {
   background-color: rgba(231, 12, 12, 0.486);
   padding: 3px 16px;
@@ -317,6 +304,7 @@
   font-style: italic;
   border: 0;
 }
+
 #toggled-otherNonOperatingIncomeMargin {
   background-color: rgba(231, 12, 12, 0.486);
   padding: 3px 16px;
@@ -335,6 +323,7 @@
   font-style: italic;
   border: 0;
 }
+
 #toggled-incomeBeforeTaxMargin {
   background-color: rgba(245, 127, 23, 0.7);
   padding: 3px 16px;
@@ -350,6 +339,7 @@
   height: 45px;
   font-size: 23px;
 }
+
 #toggled-taxesYoY {
   background-color: rgba(231, 12, 12, 0.486);
   padding: 3px 16px;
@@ -358,6 +348,7 @@
   font-style: italic;
   border: 0;
 }
+
 #toggled-taxesMargin {
   background-color: rgba(231, 12, 12, 0.486);
   padding: 3px 16px;
@@ -376,6 +367,7 @@
   font-style: italic;
   border: 0;
 }
+
 #toggled-netIncomeMargin {
   background-color: rgba(251, 193, 45, 0.603);
   padding: 3px 16px;

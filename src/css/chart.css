@@ -2,15 +2,14 @@
   justify-content: center;
   align-items: center;
   display: flex;
-
+  padding-top: 156px;
 }
 
 .chart {
   width: 55%;
-  height: 25rem;
+  height: 20rem;
   margin-top: 10px;
   justify-content: center;
   align-items: center;
   display: flex;
 }
-

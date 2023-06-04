@@ -209,6 +209,7 @@ export default function FinancialStatementsHeader() {
 
   switch (financialStatement) {
 
+
     // Income Statement
     case 'incomeStatement':
       if (isYearlyorQuarterly.isYearly) {
@@ -217,7 +218,7 @@ export default function FinancialStatementsHeader() {
         fiscalReports = stock.FinancialStatements.IncomeStatement.quarterlyReports
       }
 
-      const metrics = [
+      const incomeStatement_metrics = [
         {
           realName: 'totalRevenue',
           myName: 'totalRevenue',
@@ -289,16 +290,18 @@ export default function FinancialStatementsHeader() {
           marginLabel: 'Net Income % of Revenue',
           rgb: 'rgb(251, 192, 45)',
           income_expense: 'income'
-        }
+        },
       ]
 
 
+
+
       // Margin
-      for (const index in metrics) {
-        const realName = metrics[index].realName
-        const myName = metrics[index].myName
-        const label = metrics[index].marginLabel
-        const rgb = metrics[index].rgb
+      for (const index in incomeStatement_metrics) {
+        const realName = incomeStatement_metrics[index].realName
+        const myName = incomeStatement_metrics[index].myName
+        const label = incomeStatement_metrics[index].marginLabel
+        const rgb = incomeStatement_metrics[index].rgb
 
         if (financialStatementsToggled[`toggle${myName.charAt(0).toUpperCase() + myName.slice(1)}Margin`]) {
           chartOptions.scales.y2.display = true
@@ -327,12 +330,12 @@ export default function FinancialStatementsHeader() {
       }
 
       // Metric
-      for (const index in metrics) {
-        const realName = metrics[index].realName
-        const myName = metrics[index].myName
-        const label = metrics[index].label
-        const rgb = metrics[index].rgb
-        const income_expense = metrics[index].income_expense
+      for (const index in incomeStatement_metrics) {
+        const realName = incomeStatement_metrics[index].realName
+        const myName = incomeStatement_metrics[index].myName
+        const label = incomeStatement_metrics[index].label
+        const rgb = incomeStatement_metrics[index].rgb
+        const income_expense = incomeStatement_metrics[index].income_expense
         let data = fiscalReports.map(data => data[realName]).reverse()
 
         if (financialStatementsToggled[`toggle${myName.charAt(0).toUpperCase() + myName.slice(1)}`]) {
@@ -366,45 +369,53 @@ export default function FinancialStatementsHeader() {
       } else {
         fiscalReports = stock.FinancialStatements.BalanceSheet.quarterlyReports
       }
-      if (financialStatementsToggled.toggleTotalAssets) {
-        chartOptions.scales.y1.display = true
-        datasets.push(
-          {
-            label: "Assets",
-            data: fiscalReports.map(data => data.totalAssets).reverse(),
-            yAxisID: 'y1',
-            backgroundColor: 'rgb(0, 81, 255)',
-            barPercentage: .8,
-            borderRadius: 3,
-          }
-        )
+
+      const balanceSheet_metrics = [{
+        realName: 'totalAssets',
+        myName: 'totalAssets',
+        label: 'Total Assets',
+        rgb: 'rgb(68, 138, 255)',
+      },
+      {
+        realName: 'totalLiabilities',
+        myName: 'totalLiabilities',
+        label: 'Total Liabilities',
+        rgb: 'rgb(77, 208, 225)',
+      },
+      {
+        realName: 'totalShareholderEquity',
+        myName: 'totalEquity',
+        label: 'Total Equity',
+        rgb: 'rgb(245, 127, 23)',
+      },
+      ]
+
+      // Metric
+      for (const index in balanceSheet_metrics) {
+        const realName = balanceSheet_metrics[index].realName
+        const myName = balanceSheet_metrics[index].myName
+        const label = balanceSheet_metrics[index].label
+        const rgb = balanceSheet_metrics[index].rgb
+        let data = fiscalReports.map(data => data[realName]).reverse()
+
+        if (financialStatementsToggled[`toggle${myName.charAt(0).toUpperCase() + myName.slice(1)}`]) {
+
+          chartOptions.scales.y1.display = true
+
+          datasets.push(
+            {
+              type: 'bar',
+              label: label,
+              data: data,
+              yAxisID: 'y1',
+              backgroundColor: rgb,
+              barPercentage: .85,
+              borderRadius: 5,
+            }
+          )
+        }
       }
-      if (financialStatementsToggled.toggleTotalLiabilities) {
-        chartOptions.scales.y1.display = true
-        datasets.push(
-          {
-            label: "Liabilities",
-            data: fiscalReports.map(data => data.totalLiabilities).reverse(),
-            yAxisID: 'y1',
-            backgroundColor: 'rgb(3, 245, 164)',
-            barPercentage: .8,
-            borderRadius: 3,
-          }
-        )
-      }
-      if (financialStatementsToggled.toggleTotalEquity) {
-        chartOptions.scales.y1.display = true
-        datasets.push(
-          {
-            label: "Equity",
-            data: fiscalReports.map(data => data.totalShareholderEquity).reverse(),
-            yAxisID: 'y1',
-            backgroundColor: 'rgb(255, 238, 0)',
-            barPercentage: .8,
-            borderRadius: 3,
-          }
-        )
-      }
+
 
       break;
 
@@ -468,7 +479,9 @@ export default function FinancialStatementsHeader() {
 
   if (isYearlyorQuarterly.isYearly) {
     fiscalPeriod = [...new Set(fiscalReports.map((report) => report.fiscalDateEnding.split('-')[0]))];
-    fiscalPeriod.shift()
+    if (financialStatement != 'balanceSheet') {
+      fiscalPeriod.shift()
+    }
     fiscalPeriod.reverse()
 
   } else {

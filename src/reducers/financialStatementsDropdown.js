@@ -8,7 +8,12 @@ export default (getFinancialStatementsDropdown = {
   nonOperatingIncomeDropdown: false,
   pretaxIncomeDropdown: false,
   taxesDropdown: false,
-  netIncomeDropdown: false
+  netIncomeDropdown: false,
+
+  totalAssetsDropdown: false,
+  totalLiabilitiesDropdown: false,
+  totalEquityDropdown: false,
+
 
 
 }, action) => {

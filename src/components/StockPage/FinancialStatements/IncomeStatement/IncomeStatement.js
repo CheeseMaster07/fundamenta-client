@@ -36,8 +36,6 @@ export default function IncomeStatement() {
     fiscalReports = quarterlyReports
   }
 
-  console.log(fiscalPeriods)
-
   const [toggleTotalRevenue, setToggleTotalRevenue] = useState(true)
   const [toggleTotalRevenueYoY, setToggleTotalRevenueYoY] = useState(false)
 
