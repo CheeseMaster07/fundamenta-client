@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { getStockData } from '../../actions/stockPage'
+import { getStockData } from '../../actions/stocks'
 import IncomeStatement from './FinancialStatements/IncomeStatement/IncomeStatement';
 import BalanceSheet from './FinancialStatements/BalanceSheet/BalanceSheet';
 import CashflowStatement from './FinancialStatements/CashflowStatement/CashflowStatement';
@@ -16,7 +16,7 @@ export default function StockPage({ statemnt }) {
 
 
   useEffect(() => {
-    dispatch(getStockData(id))
+    dispatch(getStockData(id, 'FETCH_STOCK'))
 
   }, [dispatch])
 

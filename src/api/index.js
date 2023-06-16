@@ -1,10 +1,19 @@
 import axios from 'axios';
 
-const url = 'http://localhost:5000/stocks'
+const API = axios.create({ baseURL: 'http://localhost:5000' })
 
+const user = JSON.parse(localStorage.getItem('profile'));
 
-export const fetchStocks = () => axios.get(url)
+if (user?.token) {
+  API.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
+} else {
 
-console.time('API')
-export const fetchStockData = (id) => axios.get(`${url}/${id}`)
-console.timeEnd('API')
+}
+
+export const fetchStocks = () => API.get('/stocks')
+export const fetchStockData = (id) => API.get(`/stocks/${id}`)
+export const likeStock = (id, isLiking) => API.patch(`/stocks/${id}/likeStock`, { 'isLiking': isLiking })
+
+export const login = (formData) => API.post('/user/login', formData)
+export const register = (formData) => API.post('/user/register', formData)
+export const checkTokenExpired = () => API.post('/user/checkTokenExpired')

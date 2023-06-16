@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-
+import { useDispatch } from 'react-redux';
 import { Route, Routes, useLocation } from 'react-router-dom';
 
 import Header from './components/Header';
 import Home from './components/Home/Home'
+import Auth from './components/Auth/Auth'
 import StockPage from './components/StockPage/StockPage';
 import Overview from './components/StockPage/Overview/Overview';
 import Dividends from './components/StockPage/Dividends/Dividends';
@@ -19,14 +20,21 @@ import FinancialStatementsHeader from './components/StockPage/FinancialStatement
 import StockCards from './components/StockCards/StockCards'
 
 import './css/general.css'
+import { checkTokenExpired } from './actions/auth'
 
 const App = () => {
-  const location = useLocation()
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(checkTokenExpired())
+  }, [])
+
   return (
     <>
       <Header />
       <Routes>
         <Route path="/" element={< Home />} />
+        <Route path="/auth" element={< Auth />} />
         <Route path="/stocks/:id" element={< StockPageHeader />}>
           <Route index element={< Overview />} />
           <Route path="dividends" element={< Dividends />}></Route>

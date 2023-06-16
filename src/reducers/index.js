@@ -7,11 +7,13 @@ import getIsYearlyorQuarterly from './isYearlyOrQuarterly';
 import whichFinancialStatement from './whichFinancialStatement';
 import getFinancialStatementsDropdown from './financialStatementsDropdown';
 import getFinancialStatementsExtras from './financialStatementsExtras';
+import auth from './auth';
 
 const rootReducer = combineReducers({
   // stocks: stocksReducer,
   stockPage: stockPageReducer,
   oldStockPage: oldStockPage,
+  auth: auth,
   getFinancialStatementsToggled: getFinancialStatementsToggled,
   getIsYearlyorQuarterly: getIsYearlyorQuarterly,
   whichFinancialStatement: whichFinancialStatement,

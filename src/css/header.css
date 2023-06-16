@@ -7,7 +7,7 @@
   position: fixed;
   width: 100%;
   top: 0;
-  z-index: 2;
+  z-index: 3;
 }
 
 body {
@@ -41,9 +41,17 @@ body {
   margin-left: 3rem;
   list-style: none;
   display: flex;
-  justify-content: left;
+  justify-content: space-between; /* Updated property */
 }
 
+.nav ul li {
+  display: flex; /* Added property */
+  align-items: center; /* Added property */
+}
+
+.nav ul li:last-child {
+  margin-left: auto; /* Added property */
+}
 
 .title {
   font-size: 2.5rem;
@@ -98,6 +106,19 @@ body {
 
 .stock-cards {
   cursor: pointer;
-  margin-top: 1rem;
+  margin-top: .5rem;
   margin-left: 1rem;
 }
+
+.login {
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: .4rem;
+  margin-right: 3rem;
+  border: 1px solid rgba(0, 0, 0, 0);
+  border-radius: .15rem;
+  padding: .6rem .6rem;
+  color: white;
+  background-color: rgb(66, 66, 66);
+}
+

@@ -6,36 +6,49 @@ import { useDispatch } from 'react-redux';
 import '../css/header.css'
 
 import Stocks from './Home/Stocks/Stocks'
-import { getStocks } from '../actions/stocks'
-import { getStockData } from '../actions/stockPage'
+import { getStocks, getStockData } from '../actions/stocks'
 import { fetchStocks } from '../api/index'
 
 
 
 export default function Header() {
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const [stocks, setStocks] = useState([])
   const [inputtedStock, setInputtedStock] = useState('')
   useEffect(() => {
     fetchStocks().then(data => setStocks(data.data))
   }, [])
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+
 
   const [searchedStocks, setSearchedStocks] = useState([])
+  const [searchQuery, setSearchQuery] = useState()
   const stocksRef = useRef()
-
-  console.log(searchedStocks)
 
   function showStocks(e) {
     setInputtedStock(e.target.value)
-    const searchQuery = stocksRef.current.value
+    setSearchQuery(stocksRef.current.value)
     if (searchQuery != '') {
       setSearchedStocks(stocks.filter(stock => stock.toLowerCase().startsWith(searchQuery)).slice(0, 10))
     } else {
       setSearchedStocks([])
     }
 
+
   }
 
+  const handleKeyDown = (e) => {
+    console.log(e.target.value)
+    if (e.key === 'Enter') {
+      navigate(`/stocks/${e.target.value}`)
+    }
+  };
+
+  function logout() {
+    localStorage.removeItem('profile')
+    window.location.reload()
+  }
 
   return (
     <div className="header">
@@ -49,7 +62,8 @@ export default function Header() {
 
               <div className="dropdown">
                 <form>
-                  <input className="searchbar" ref={stocksRef} onChange={showStocks} type="text" placeholder='Search Stocks' value={inputtedStock} />
+                  <input className="searchbar" onKeyDown={handleKeyDown}
+                    ref={stocksRef} onChange={showStocks} type="text" placeholder='Search Stocks' value={inputtedStock} />
                 </form>
 
                 <div className="dropdown-menu">
@@ -72,13 +86,32 @@ export default function Header() {
               }
               } className='stock-cards'>Stock Cards</div>
             </li>
+            <li>
+              <div>
+                {user ?
+                  user.result?.name
+                  :
+                  ''}
+              </div>
+              <button
+                onClick={() => {
+                  user ?
+                    logout()
+                    :
+                    navigate('/auth');
+                }}
+                className='login'
+              >
+                {user ? 'Logout' : 'Login'}
+              </button>
+            </li>
           </ul>
         </div>
-      </nav>
+      </nav >
 
-    </div>
+    </div >
 
 
   )
 }
-{/*  */ }
+

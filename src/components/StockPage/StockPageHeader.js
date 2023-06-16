@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Outlet, useParams, Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 
-import { getStockData } from '../../actions/stockPage'
+import { getStockData } from '../../actions/stocks'
 import { getFinancialStatementsToggled } from '../../actions/financialStatementsToggled'
 
 import '../../css/stockPageHeader.css'
@@ -24,7 +24,7 @@ export default function StockPageHeader() {
 
 
   useEffect(() => {
-    dispatch(getStockData(id, 'FETCH_ALL'))
+    dispatch(getStockData(id, 'FETCH_STOCK'))
 
   }, [dispatch])
 

@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { getStockData } from '../../actions/stockPage'
+import { getStockData, likeStock } from '../../actions/stocks'
 import { fetchStocks } from '../../api/index'
 
 
@@ -12,6 +12,8 @@ export default function StockCards() {
   const dispatch = useDispatch()
   const stock = useSelector((state) => state.stockPage)
   const oldStock = useSelector((state) => state.oldStockPage)
+
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')).result);
 
   const [nextStockCard, setNextStockCard] = useState(false)
   const [backStockCard, setBackStockCard] = useState(false)
@@ -23,13 +25,22 @@ export default function StockCards() {
     setFlipped(!flipped);
   };
 
+
   const handleLike = () => {
-    setLiked(!liked);
+    if (stock.ticker) {
+      if (liked) {
+
+        dispatch(likeStock(stock.ticker.toLowerCase(), true))
+      } else {
+        dispatch(likeStock(stock.ticker.toLowerCase(), false))
+      }
+
+    }
   };
 
 
-
   const [stocks, setStocks] = useState([])
+
   let id = ''
   useEffect(() => {
     const fetchData = async () => {
@@ -39,8 +50,7 @@ export default function StockCards() {
       const randomIndex = Math.floor(Math.random() * data.data.length);
       const randomTicker = data.data[randomIndex];
       id = randomTicker
-      console.log(id)
-      dispatch(getStockData(id.toLowerCase(), 'FETCH_ALL'));
+      dispatch(getStockData(id.toLowerCase(), 'FETCH_STOCK'));
     };
     fetchData()
   }, [])
@@ -48,7 +58,7 @@ export default function StockCards() {
   useEffect(() => {
     const fetchData = async () => {
       if (stock.ticker) {
-        dispatch(getStockData(stock.ticker, 'OLD_FETCH_ALL'));
+        dispatch(getStockData(stock.ticker, 'OLD_FETCH_STOCK'));
 
       }
       const data = await fetchStocks();
@@ -56,8 +66,7 @@ export default function StockCards() {
       const randomIndex = Math.floor(Math.random() * data.data.length);
       const randomTicker = data.data[randomIndex];
       id = randomTicker
-      console.log(id)
-      dispatch(getStockData(id.toLowerCase(), 'FETCH_ALL'));
+      dispatch(getStockData(id.toLowerCase(), 'FETCH_STOCK'));
     };
     setTimeout(() => {
       fetchData()
@@ -69,8 +78,8 @@ export default function StockCards() {
   useEffect(() => {
     const fetchData = async () => {
       if (oldStock.ticker) {
-        dispatch(getStockData(oldStock.ticker, 'FETCH_ALL'));
-        dispatch(getStockData('', 'OLD_FETCH_ALL'));
+        dispatch(getStockData(oldStock.ticker, 'FETCH_STOCK'));
+        dispatch(getStockData('', 'OLD_FETCH_STOCK'));
 
       }
     };
@@ -78,6 +87,12 @@ export default function StockCards() {
       fetchData()
     }, 100);
   }, [backStockCard])
+
+  useEffect(() => {
+    const isLiked = stock.likes?.some((id) => id === String(user?._id));
+    console.log(String(user?._id))
+    setLiked(isLiked);
+  }, [stock.likes, user]);
 
 
   const stockPageURL = `/stocks/${stock.ticker}`
