@@ -12,6 +12,12 @@ const initialState = {
   totalAssetsExtras: { YoY: false, margin: false },
   totalLiabilitiesExtras: { YoY: false, margin: false },
   totalEquityExtras: { YoY: false, margin: false },
+
+  operatingCashflowExtras: { YoY: false, margin: false },
+  investingCashflowExtras: { YoY: false, margin: false },
+  financingCashflowExtras: { YoY: false, margin: false },
+  freeCashflowExtras: { YoY: false, margin: false },
+
 };
 
 export default function financialStatementsExtrasReducer(state = initialState, action) {

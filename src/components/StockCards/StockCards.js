@@ -113,7 +113,7 @@ export default function StockCards() {
               <div class="grid-item">PE (TTM): {(stock.Pricing.lastMarketCap / stock.FinancialStatements.IncomeStatement.annualReports[0].netIncome).toFixed(1)}</div>
               <div class="grid-item">PB: {(stock.Pricing.lastMarketCap / stock.FinancialStatements.BalanceSheet.annualReports[0].totalShareholderEquity).toFixed(1)}</div>
               <div class="grid-item">PE (FWD): XX</div>
-              <div class="grid-item">Growth: XX</div>
+              <div class="grid-item">Growth 5yr avg: {`${(stock.pre5yrsCAGR * 100).toFixed(1)}%`}</div>
               {/* <div class="grid-item">Sector: {stock.sector.toLowerCase()}</div> */}
               <div class="grid-item">Profit Margin: {`${(((stock.FinancialStatements.IncomeStatement.annualReports[0].netIncome / stock.FinancialStatements.IncomeStatement.annualReports[0].totalRevenue) * 100)?.toFixed(1))}%`}</div>
               {/* <div class="grid-item">Industry: {stock.industry.toLowerCase()}</div> */}

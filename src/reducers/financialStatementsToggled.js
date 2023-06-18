@@ -46,12 +46,16 @@ export default (getFinancialStatementsToggled = {
 
 
   toggleOperatingCashflow: false,
+  toggleOperatingCashflowMargin: false,
 
   toggleInvestingCashflow: false,
+  toggleInvestingCashflowMargin: false,
 
   toggleFinancingCashflow: false,
+  toggleFinancingCashflowMargin: false,
 
   toggleFreeCashflow: false,
+  toggleFreeCashflowMargin: false,
 
 }, action) => {
 

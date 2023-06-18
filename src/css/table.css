@@ -396,14 +396,46 @@
   background-color: rgba(0, 81, 255, 0.377);
 }
 
+#toggled-operatingCashflowMargin {
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;
+  border: 0;
+}
+
 #toggled-investingCashflow {
   background-color: rgba(3, 245, 164, 0.418);
+}
+
+#toggled-investingCashflowMargin {
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;
+  border: 0;
 }
 
 #toggled-financingCashflow {
   background-color: rgba(255, 77, 225, 0.432);
 }
 
+#toggled-financingCashflowMargin {
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;
+  border: 0;
+}
+
 #toggled-freeCashflow {
   background-color: rgba(255, 238, 0, 0.39);
+}
+
+#toggled-freeCashflowMargin {
+  padding: 3px 16px;
+  height: 32px;
+  font-size: 19px;
+  font-style: italic;
+  border: 0;
 }

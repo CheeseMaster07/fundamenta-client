@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
 
 import RowDropdown from './RowDropdown'
 
 
 export default function TableRow({ metric, metricName, metricValue, toggledID, typeOfRow, collapsible, income_expense, isSubrow, fiscalPeriods, reports, dropdown, setDropdown, extras, setExtras, toggledMetric, setToggledMetric, toggleSubrows, setToggleSubrows }) {
+
+  const stock = useSelector((state) => state.stockPage)
+
+  let Q_Y = 'annualReports'
+
+  if (reports.length > 6) {
+    Q_Y = 'quarterlyReports'
+  }
 
   const [isHovered, setIsHovered] = useState(false);
 
@@ -21,6 +30,12 @@ export default function TableRow({ metric, metricName, metricValue, toggledID, t
     totalAssets: 'rgb(68, 138, 255)',
     totalLiabilities: 'rgb(77, 208, 225)',
     totalEquity: 'rgb(245, 127, 23)',
+
+    operatingCashflow: 'rgb(68, 138, 255)',
+    investingCashflow: 'rgb(77, 208, 225)',
+    financingCashflow: 'rgb(245, 127, 23)',
+    freeCashflow: 'rgb(179, 136, 255)',
+
   }
 
 
@@ -192,7 +207,7 @@ export default function TableRow({ metric, metricName, metricValue, toggledID, t
 
           fiscalPeriods.map((period, index) => {
 
-            const revenue = reports.find((report) => report.fiscalDateEnding.startsWith(period)).totalRevenue;
+            const revenue = stock.FinancialStatements.IncomeStatement[`${Q_Y}`].find((report) => report.fiscalDateEnding.startsWith(period)).totalRevenue;
             const metric = reports.find((report) => report.fiscalDateEnding.startsWith(period))[metricValue];
             let margin = metric / revenue
 

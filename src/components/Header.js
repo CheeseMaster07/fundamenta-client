@@ -29,8 +29,9 @@ export default function Header() {
   function showStocks(e) {
     setInputtedStock(e.target.value)
     setSearchQuery(stocksRef.current.value)
-    if (searchQuery != '') {
-      setSearchedStocks(stocks.filter(stock => stock.toLowerCase().startsWith(searchQuery)).slice(0, 10))
+    console.log(e.target.value)
+    if (e.target.value != '') {
+      setSearchedStocks(stocks.filter(stock => stock.toLowerCase().startsWith(e.target.value)).slice(0, 10))
     } else {
       setSearchedStocks([])
     }
@@ -39,7 +40,6 @@ export default function Header() {
   }
 
   const handleKeyDown = (e) => {
-    console.log(e.target.value)
     if (e.key === 'Enter') {
       navigate(`/stocks/${e.target.value}`)
     }

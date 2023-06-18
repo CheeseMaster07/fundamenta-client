@@ -9,9 +9,7 @@ import '../../../../css/chart.css'
 import Header from '../FinancialStatementsHeader'
 import { getFinancialStatementsToggled } from '../../../../actions/financialStatementsToggled'
 
-import IncomeStatement_yearly from './Periods/IncomeStatement_component'
-
-
+import IncomeStatement_component from './Periods/IncomeStatement_component'
 
 
 export default function IncomeStatement() {
@@ -131,7 +129,7 @@ export default function IncomeStatement() {
   //console.log(stock.FinancialStatements.IncomeStatement.TotalRevenue.find({ date: '2020' }))
   return (
     <>
-      <IncomeStatement_yearly fiscalPeriods={fiscalPeriods} fiscalReports={fiscalReports}
+      <IncomeStatement_component fiscalPeriods={fiscalPeriods} fiscalReports={fiscalReports}
         toggledMetrics={{
           toggleTotalRevenue: toggleTotalRevenue,
           toggleTotalRevenueYoY: toggleTotalRevenueYoY,

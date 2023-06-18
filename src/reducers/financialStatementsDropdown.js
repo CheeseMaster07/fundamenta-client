@@ -14,6 +14,10 @@ export default (getFinancialStatementsDropdown = {
   totalLiabilitiesDropdown: false,
   totalEquityDropdown: false,
 
+  operatingCashflowDropdown: false,
+  investingCashflowDropdown: false,
+  financingCashflowDropdown: false,
+  freeCashflowDropdown: false,
 
 
 }, action) => {

@@ -21,10 +21,8 @@ export default function FinancialStatementsHeader() {
   const isYearlyorQuarterly = useSelector((state) => state.getIsYearlyorQuarterly)
   const financialStatementsExtras = useSelector((state) => state.getFinancialStatementsExtras);
   const location = useLocation()
-  const linkUrl_IncomeStatement = `/stocks/${id}/financial-statements/income-statement`
-  const linkUrl_BalanceSheet = `/stocks/${id}/financial-statements/balance-sheet`
-  const linkUrl_CashflowStatement = `/stocks/${id}/financial-statements/cashflow-statement`
   const stock = location.state
+
   let fiscalReports = stock.FinancialStatements.IncomeStatement.annualReports
   let fiscalPeriod = 'Year'
   let datasets = []
@@ -421,55 +419,116 @@ export default function FinancialStatementsHeader() {
 
     // Cashflow Statement
     case 'cashflowStatement':
+      let Q_Y
       if (isYearlyorQuarterly.isYearly) {
+        Q_Y = 'annualReports'
         fiscalReports = stock.FinancialStatements.CashflowStatement.annualReports
       } else {
+        Q_Y = 'quarterlyReports'
         fiscalReports = stock.FinancialStatements.CashflowStatement.quarterlyReports
       }
-      if (financialStatementsToggled.toggleOperatingCashflow) {
-        datasets.push(
-          {
-            label: "Cash from operation activities",
-            data: fiscalReports.map(data => data.operatingCashflow).reverse(),
-            backgroundColor: 'rgb(0, 81, 255)',
-            barPercentage: .8,
-            borderRadius: 3,
+
+      const cashflowStatement_metrics = [
+        {
+          realName: 'operatingCashflow',
+          myName: 'operatingCashflow',
+          label: 'Cash from operating activities',
+          marginLabel: 'Cash from operating activities % of Revenue',
+          rgb: 'rgb(68, 138, 255)',
+          income_expense: 'income'
+        },
+        {
+          realName: 'cashflowFromInvestment',
+          myName: 'investingCashflow',
+          label: 'Cash from investing activities',
+          marginLabel: 'Cash from investing activities % of Revenue',
+          rgb: 'rgb(77, 208, 225)',
+          income_expense: 'income'
+        },
+        {
+          realName: 'cashflowFromFinancing',
+          myName: 'financingCashflow',
+          label: 'Cash from financing activities',
+          marginLabel: 'Cash from financing activities % of Revenue',
+          rgb: 'rgb(245, 127, 23)',
+          income_expense: 'income'
+        },
+        {
+          realName: 'freeCashflow',
+          myName: 'freeCashflow',
+          label: 'Free Cash Flow',
+          marginLabel: 'Free Cash Flow % of Revenue',
+          rgb: 'rgb(179, 136, 255)',
+          income_expense: 'income'
+        },
+      ]
+
+      // Margin
+      for (const index in cashflowStatement_metrics) {
+        const realName = cashflowStatement_metrics[index].realName
+        const myName = cashflowStatement_metrics[index].myName
+        const label = cashflowStatement_metrics[index].marginLabel
+        const rgb = cashflowStatement_metrics[index].rgb
+
+        if (financialStatementsToggled[`toggle${myName.charAt(0).toUpperCase() + myName.slice(1)}Margin`]) {
+          chartOptions.scales.y2.display = true
+          chartOptions.plugins.legend.labels.usePointStyle = true
+          chartOptions.plugins.legend.labels.pointStyle = 'line'
+          if (chartOptions.scales.y2.max < Math.max(...fiscalReports.map((data, index) => (data[realName] / stock.FinancialStatements.IncomeStatement[`${Q_Y}`][index].totalRevenue))) + .01) {
+            chartOptions.scales.y2.max = Math.max(...fiscalReports.map((data, index) => (data[realName] / stock.FinancialStatements.IncomeStatement[`${Q_Y}`][index].totalRevenue))) + .01
           }
-        )
-      }
-      if (financialStatementsToggled.toggleInvestingCashflow) {
-        datasets.push(
-          {
-            label: "Cash from investing activities",
-            data: fiscalReports.map(data => data.cashflowFromInvestment).reverse(),
-            backgroundColor: 'rgb(3, 245, 164)',
-            barPercentage: .8,
-            borderRadius: 3,
+          if (chartOptions.scales.y2.min > Math.min(...fiscalReports.map((data, index) => (data[realName] / stock.FinancialStatements.IncomeStatement[`${Q_Y}`][index].totalRevenue))) - .01) {
+            chartOptions.scales.y2.min = Math.min(...fiscalReports.map((data, index) => (data[realName] / stock.FinancialStatements.IncomeStatement[`${Q_Y}`][index].totalRevenue))) - .01
           }
-        )
+
+          datasets.push(
+            {
+              type: 'line',
+              label: label,
+              data: fiscalReports.map((data, index) => (data[realName] / stock.FinancialStatements.IncomeStatement[`${Q_Y}`][index].totalRevenue)).reverse(),
+              yAxisID: 'y2',
+              backgroundColor: rgb,
+              borderColor: rgb,
+              barPercentage: .8,
+              borderRadius: 3,
+            }
+          )
+        }
       }
-      if (financialStatementsToggled.toggleFinancingCashflow) {
-        datasets.push(
-          {
-            label: "Cash from financing activities",
-            data: fiscalReports.map(data => data.cashflowFromFinancing).reverse(),
-            backgroundColor: 'rgb(255, 77, 225)',
-            barPercentage: .8,
-            borderRadius: 3,
+
+      // Metric
+      for (const index in cashflowStatement_metrics) {
+        const realName = cashflowStatement_metrics[index].realName
+        const myName = cashflowStatement_metrics[index].myName
+        const label = cashflowStatement_metrics[index].label
+        const rgb = cashflowStatement_metrics[index].rgb
+        const income_expense = cashflowStatement_metrics[index].income_expense
+        let data = fiscalReports.map(data => data[realName]).reverse()
+
+        if (financialStatementsToggled[`toggle${myName.charAt(0).toUpperCase() + myName.slice(1)}`]) {
+          chartOptions.scales.y1.display = true
+
+          if (income_expense == 'expense') {
+            data = fiscalReports.map(data => 0 - data[realName]).reverse()
           }
-        )
+
+          datasets.push(
+            {
+              type: 'bar',
+              label: label,
+              data: data,
+              yAxisID: 'y1',
+              backgroundColor: rgb,
+              barPercentage: .85,
+              borderRadius: 5,
+            }
+          )
+        }
       }
-      if (financialStatementsToggled.toggleFreeCashflow) {
-        datasets.push(
-          {
-            label: "Free Cash Flow",
-            data: fiscalReports.map(data => data.freeCashflow).reverse(),
-            backgroundColor: 'rgb(255, 238, 0)',
-            barPercentage: .8,
-            borderRadius: 3,
-          }
-        )
-      }
+
+
+
+
 
       break;
 
